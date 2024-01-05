@@ -4,16 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#82B56D"
-    tools:context=".MainActivity">
+    android:background="@color/back"
+    tools:context=".Controller.MainActivity">
 
     <Button
         android:id="@+id/login"
         android:layout_width="201dp"
         android:layout_height="76dp"
         android:layout_marginStart="104dp"
-        android:layout_marginTop="324dp"
+        android:layout_marginTop="400dp"
         android:text="Log In"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="201dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="488dp"
+        android:text="Register"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,24 +42,25 @@
 
     <TextView
         android:id="@+id/Title"
-        android:layout_width="241dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="341dp"
+        android:layout_height="149dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
         android:text="Monster Math"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="34sp"
+        android:textSize="60sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="244dp"
-        android:layout_height="239dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="153dp"
+        android:id="@+id/imageView3"
+        android:layout_width="154dp"
+        android:layout_height="152dp"
+        android:layout_marginStart="142dp"
+        android:layout_marginTop="262dp"
+        android:src="@drawable/four_arm_monster"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/homepagemonster_background" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

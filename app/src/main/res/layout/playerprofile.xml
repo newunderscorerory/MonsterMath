@@ -5,7 +5,7 @@
     android:id="@+id/lookingmonster"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/back">
 
     <Button
         android:id="@+id/back"
@@ -22,7 +22,7 @@
         android:layout_width="248dp"
         android:layout_height="75dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="240dp"
         android:text="username"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:layout_width="268dp"
         android:layout_height="113dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="368dp"
+        android:layout_marginTop="388dp"
         android:text="Game Complete"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,20 +44,20 @@
         android:layout_width="268dp"
         android:layout_height="113dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="556dp"
+        android:layout_marginTop="584dp"
         android:text="High Score"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="234dp"
-        android:layout_height="194dp"
-        android:layout_marginStart="100dp"
+        android:id="@+id/imageView2"
+        android:layout_width="164dp"
+        android:layout_height="187dp"
+        android:layout_marginStart="231dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/lookingmonster_background" />
+        app:srcCompat="@drawable/two_eyed_green_monster__1_" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
