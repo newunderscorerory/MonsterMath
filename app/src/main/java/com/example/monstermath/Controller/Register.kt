@@ -1,11 +1,12 @@
-import android.content.Intent
+package com.example.monstermath.Controller
+
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.widget.Toast
-import com.example.monstermath.Model.Customer
+import com.example.monstermath.Model.CustomerDBHelper
 
 import com.example.monstermath.R
 

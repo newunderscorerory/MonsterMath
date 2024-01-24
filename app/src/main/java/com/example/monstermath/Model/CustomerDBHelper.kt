@@ -1,18 +1,18 @@
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import com.example.monstermath.Model.Customer
+package com.example.monstermath.Model
+import android.content.ContentValues
+import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 
 class CustomerDBHelper(context: Context) : SQLiteOpenHelper(context, "Customer", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("create table Customer(username TEXT primary key, password TEXT, email TEXT, fullname TEXT)");
+        db?.execSQL("create table Customer(username TEXT primary key, password TEXT, email TEXT, fullname TEXT)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        db?.execSQL("drop table if exists Customer");
+        db?.execSQL("drop table if exists Customer")
         onCreate(db);
     }
 
@@ -24,11 +24,11 @@ class CustomerDBHelper(context: Context) : SQLiteOpenHelper(context, "Customer",
     ): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues()
-        cv.put("username", username);
-        cv.put("password", password);
-        cv.put("email", email);
-        cv.put("fullname", fullname);
-        val result = db.insert("Customer", null, cv);
+        cv.put("username", username)
+        cv.put("password", password)
+        cv.put("email", email)
+        cv.put("fullname", fullname)
+        val result = db.insert("Customer", null, cv)
         db.close()
         return result != -1L
     }
