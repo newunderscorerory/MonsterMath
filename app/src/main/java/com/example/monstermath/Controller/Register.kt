@@ -24,11 +24,6 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
 
-        //val backbutton: Button = findViewById(R.id.backButton)
-        //backbutton.setOnClickListener {
-         //   val intent = Intent(this, HomePage::class.java)
-            //startActivity(intent)
-      //  }
 
         username = findViewById(R.id.Username)
         password = findViewById(R.id.Password)
@@ -36,7 +31,7 @@ class Register : AppCompatActivity() {
         email = findViewById(R.id.Email)
         fullname = findViewById(R.id.Name)
         db = CustomerDBHelper(this)
-        register = findViewById(R.id.RegisterConfirm)
+        register = findViewById(R.id.RegisterButton)
 
         register.setOnClickListener {
             val userText = username.text.toString()
