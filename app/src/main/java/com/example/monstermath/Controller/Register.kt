@@ -1,5 +1,6 @@
 package com.example.monstermath.Controller
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
@@ -24,11 +25,11 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
 
-        //val backbutton: Button = findViewById(R.id.backButton)
-        //backbutton.setOnClickListener {
-         //   val intent = Intent(this, HomePage::class.java)
-            //startActivity(intent)
-      //  }
+        val backbutton: Button = findViewById(R.id.ReturnToHome)
+        backbutton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         username = findViewById(R.id.Username)
         password = findViewById(R.id.Password)
@@ -53,8 +54,8 @@ class Register : AppCompatActivity() {
 
                     if (saveData) {
                         Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
-                        //val intent = Intent(this, LogIn::class.java)
-                        //startActivity(intent)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
                     }
