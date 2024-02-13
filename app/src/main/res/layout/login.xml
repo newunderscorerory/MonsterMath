@@ -7,23 +7,19 @@
     android:background="@color/back"
     tools:context=".Controller.LogIn">
 
-    <EditText
-        android:id="@+id/Username"
-        android:layout_width="295dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="288dp"
-        android:background="@color/white"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="text"
-        android:textColor="#595656"
-        android:textSize="48sp"
+    <Button
+        android:id="@+id/takeToRegister"
+        android:layout_width="219dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="644dp"
+        android:text="Register"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/Password"
+        android:id="@+id/passwordLogIn"
         android:layout_width="295dp"
         android:layout_height="81dp"
         android:layout_marginStart="56dp"
@@ -33,6 +29,21 @@
         android:hint="Password"
         android:inputType="text"
         android:password="true"
+        android:textColor="#595656"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/usernameLogIn"
+        android:layout_width="295dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="288dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
         android:textColor="#595656"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"

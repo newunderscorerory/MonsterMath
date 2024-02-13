@@ -16,7 +16,8 @@
         android:text="Log In"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/Base.Theme.MonsterMath"/>
 
     <Button
         android:id="@+id/register"

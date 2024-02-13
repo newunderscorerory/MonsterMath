@@ -24,6 +24,9 @@
         </activity>
 
         <activity android:name=".Controller.Register"> </activity>
+        <activity android:name=".Controller.Admin"> </activity>
+        <activity android:name=".Controller.PlayerProfile"> </activity>
+        <activity android:name=".Controller.StartGame"> </activity>
 
     </application>
 
