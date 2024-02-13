@@ -11,13 +11,12 @@
         android:layout_width="293dp"
         android:layout_height="363dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="91dp"
+        android:layout_marginTop="42dp"
         android:layout_marginBottom="394dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.427" />
+        />
 
     <Button
         android:id="@+id/button"
@@ -47,5 +46,5 @@
         android:layout_marginTop="612dp"
         android:text="Delete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

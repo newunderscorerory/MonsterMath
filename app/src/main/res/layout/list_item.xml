@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:textAppearance="?android:attr/textAppearanceListItem"
-    android:divider="@drawable/divider"
-    android:dividerHeight="1dp"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:backgroundTintMode="src_in"
+        android:padding="5dp"
+        android:text="@string/textview"
+        android:textColor="@color/black"
+        android:textColorHighlight="#FF0404"
+        android:textSize="20sp" />
+</LinearLayout>

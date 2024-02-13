@@ -21,13 +21,13 @@ class Admin : AppCompatActivity() {
 
         val customers = dbHelper.getAllCustomers()
 
-        val customerInfoList = arrayListOf<String>()
+        val fullNameList = arrayListOf<String>()
         for (customer in customers) {
-            val customerInfo = "Username: ${customer.username}\nFull Name: ${customer.fullname}\nEmail: ${customer.email}"
-            customerInfoList.add(customerInfo)
+            val fullName = customer.fullname
+            fullNameList.add(fullName)
         }
 
-        val adapter = ArrayAdapter(this, R.layout.list_item, customerInfoList)
+        val adapter = ArrayAdapter(this, R.layout.list_item, R.id.textView, fullNameList)
         listView.adapter = adapter
     }
 }
