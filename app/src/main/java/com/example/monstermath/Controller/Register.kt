@@ -37,7 +37,7 @@ class Register : AppCompatActivity() {
         email = findViewById(R.id.Email)
         fullname = findViewById(R.id.Name)
         db = CustomerDBHelper(this)
-        register = findViewById(R.id.RegisterButton)
+        register = findViewById(R.id.ReturnToHome)
 
         register.setOnClickListener {
             val userText = username.text.toString()

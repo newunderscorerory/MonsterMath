@@ -7,6 +7,16 @@
     android:background="@color/back">
 
 
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="173dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="560dp"
+        android:text="Register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/RegisterConfirm"
         android:layout_width="274dp"
@@ -80,12 +90,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/RegisterButton"
+        android:id="@+id/ReturnToHome"
         android:layout_width="173dp"
         android:layout_height="66dp"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="580dp"
-        android:text="Register"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="636dp"
+        android:text="Home"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
