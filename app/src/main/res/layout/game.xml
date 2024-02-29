@@ -7,7 +7,7 @@
     android:background="@color/back"
     android:textAlignment="gravity">
 
-    <TextView
+    <EditText
         android:id="@+id/Question"
         android:layout_width="245dp"
         android:layout_height="139dp"
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/Countdown"
         android:layout_width="198dp"
         android:layout_height="97dp"
