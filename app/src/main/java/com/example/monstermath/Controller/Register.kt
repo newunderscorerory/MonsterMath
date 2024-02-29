@@ -25,11 +25,6 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
 
-        val backbutton: Button = findViewById(R.id.ReturnToHome)
-        backbutton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
 
         username = findViewById(R.id.Username)
         password = findViewById(R.id.Password)
@@ -37,7 +32,7 @@ class Register : AppCompatActivity() {
         email = findViewById(R.id.Email)
         fullname = findViewById(R.id.Name)
         db = CustomerDBHelper(this)
-        register = findViewById(R.id.ReturnToHome)
+        register = findViewById(R.id.registerButton)
 
         register.setOnClickListener {
             val userText = username.text.toString()
@@ -54,8 +49,6 @@ class Register : AppCompatActivity() {
 
                     if (saveData) {
                         Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
                     }
@@ -64,5 +57,13 @@ class Register : AppCompatActivity() {
                 }
             }
         }
+
+        val returnToHomeButton: Button = findViewById(R.id.ReturnToHome)
+        returnToHomeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 }
