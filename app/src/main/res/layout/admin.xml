@@ -12,11 +12,9 @@
         android:layout_height="363dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="42dp"
-        android:layout_marginBottom="394dp"
-        android:background="@color/white"
+        android:background="#7E7979"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button"
