@@ -10,94 +10,51 @@ import com.example.monstermath.Model.MathQuestionsDBHelper
 import com.example.monstermath.R
 class Game : AppCompatActivity() {
 
+    private lateinit var timerTextView: TextView
+    private lateinit var questionsTextView: TextView
     private lateinit var dbHelper: MathQuestionsDBHelper
-    private lateinit var questions: List<MathQuestions>
-    private var currentQuestionIndex = 0
-    private var score = 0
-    private lateinit var timer: CountDownTimer
-    private lateinit var questionEditText: TextView
-    private lateinit var answerEditText: TextView
-    private lateinit var infoTextView: TextView
-    private lateinit var countdownTextView: TextView
-    private var timeLeftMillis: Long = 60000
-    private var timerRunning: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game)
 
-        questionEditText = findViewById(R.id.Question)
-        answerEditText = findViewById(R.id.Answer)
-        infoTextView = findViewById(R.id.Info)
-        countdownTextView = findViewById(R.id.Countdown)
+        timerTextView = findViewById(R.id.Countdown)
+        questionsTextView = findViewById(R.id.Question)
         dbHelper = MathQuestionsDBHelper(this)
-        questions = dbHelper.getAllQuestions()
+        dbHelper.insertDefaultQuestions()
 
-
-        displayNextQuestion()
-    }
-
-
-    private fun initializeTimer() {
-        timer = object : CountDownTimer(timeLeftMillis, 1000) {
+        // Start the countdown timer
+        val millisInFuture: Long = 60000
+        val countDownInterval: Long = 1000
+        val countDownTimer = object : CountDownTimer(millisInFuture, countDownInterval) {
             override fun onTick(millisUntilFinished: Long) {
-                timeLeftMillis = millisUntilFinished
-                updateCountdownText()
+                val secondsRemaining = millisUntilFinished / 1000
+                val minutes = secondsRemaining / 60
+                val seconds = secondsRemaining % 60
+                timerTextView.text = String.format("%02d:%02d", minutes, seconds)
             }
 
             override fun onFinish() {
-                endGame()
+                timerTextView.text = "00:00"
             }
         }
+        countDownTimer.start()
+
+        // Fetch and display a random question
+        displayRandomQuestion()
     }
 
-    private fun startTimer() {
-        timer.start()
-        timerRunning = true
-    }
-
-    private fun updateCountdownText() {
-        val secondsLeft = timeLeftMillis / 1000
-        countdownTextView.text = "Time left: $secondsLeft seconds"
-    }
-
-    private fun displayNextQuestion() {
-        if (currentQuestionIndex < questions.size) {
-            val currentQuestion = questions[currentQuestionIndex]
-            questionEditText.text = currentQuestion.question
-
-            if (!timerRunning) {
-                startTimer()
-            }
-
-            answerEditText.setOnEditorActionListener { _, _, _ ->
-                val userAnswer = answerEditText.text.toString().toIntOrNull()
-                if (userAnswer != null && userAnswer == currentQuestion.answer) {
-                    score++
-                    infoTextView.text = "Correct! Type your answer here!"
-                } else {
-                    infoTextView.text = "Incorrect! Type your answer here!"
-                }
-                answerEditText.text = ""
-
-                currentQuestionIndex++
-                if (currentQuestionIndex < questions.size) {
-                    displayNextQuestion()
-                } else {
-                    endGame()
-                }
-                true
-            }
+    private fun displayRandomQuestion() {
+        val questionList = dbHelper.getAllQuestions()
+        if (questionList.isNotEmpty()) {
+            val randomIndex = (0 until questionList.size).random()
+            val randomQuestion = questionList[randomIndex]
+            questionsTextView.text = randomQuestion.question
         } else {
-            endGame()
+            questionsTextView.text = "No questions available"
         }
     }
 
-
-
-    private fun endGame() {
-        timer.cancel()
-        countdownTextView.text = "Time's up!"
-        Toast.makeText(this, "Game over! Your score is $score", Toast.LENGTH_LONG).show()
-    }
 }
+
+

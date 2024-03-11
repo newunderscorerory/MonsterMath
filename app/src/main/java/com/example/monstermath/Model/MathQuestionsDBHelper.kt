@@ -4,11 +4,10 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-
 class MathQuestionsDBHelper(context: Context) : SQLiteOpenHelper(context, "MathQuestions", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE questions (" +
+        db?.execSQL("CREATE TABLE MathQuestions (" +
                 "id INTEGER PRIMARY KEY," +
                 "category TEXT," +
                 "question TEXT," +
@@ -16,22 +15,21 @@ class MathQuestionsDBHelper(context: Context) : SQLiteOpenHelper(context, "MathQ
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS questions")
+        db?.execSQL("DROP TABLE IF EXISTS MathQuestions")
         onCreate(db)
     }
 
-    private fun insertDefaultQuestions() {
-        // Add addition/subtraction questions
+    internal fun insertDefaultQuestions() {
+        val db = writableDatabase
         addQuestion("Addition and Subtraction", "What is 5 + 3?", 8)
         addQuestion("Addition and Subtraction", "What is 10 - 4?", 6)
 
-        // Add multiplication/division questions
         addQuestion("Multiplication and Division", "What is 4 * 5?", 20)
         addQuestion("Multiplication and Division", "What is 12 / 3?", 4)
 
-        // Add all four operations questions
         addQuestion("All", "What is 2 + 3 * 4?", 14)
         addQuestion("All", "What is (6 - 2) * 5?", 20)
+        db.close()
     }
 
     fun addQuestion(category: String, question: String, answer: Int): Boolean {
@@ -41,14 +39,14 @@ class MathQuestionsDBHelper(context: Context) : SQLiteOpenHelper(context, "MathQ
             put("question", question)
             put("answer", answer)
         }
-        val result = db.insert("questions", null, cv)
+        val result = db.insert("MathQuestions", null, cv)
         db.close()
         return result != -1L
     }
 
     fun getAllQuestions(): List<MathQuestions> {
         val questionList = mutableListOf<MathQuestions>()
-        val query = "SELECT * FROM questions"
+        val query = "SELECT * FROM MathQuestions"
         val db = this.readableDatabase
         val cursor: Cursor? = db.rawQuery(query, null)
 
@@ -72,16 +70,5 @@ class MathQuestionsDBHelper(context: Context) : SQLiteOpenHelper(context, "MathQ
         return questionList
     }
 
-    fun removeQuestion(id: Int): Boolean {
-        val db = this.writableDatabase
-        val whereClause = "id = ?"
-        val whereArgs = arrayOf(id.toString())
-        val result = db.delete("questions", whereClause, whereArgs)
-        db.close()
-        return result > 0
-    }
+
 }
-
-
-
-

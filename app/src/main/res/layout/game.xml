@@ -14,13 +14,14 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="192dp"
         android:text="Question"
+        android:textColorHint="#000000"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="48sp"
+        android:textSize="40sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/Answer"
         android:layout_width="243dp"
         android:layout_height="85dp"
@@ -51,7 +52,7 @@
         android:layout_height="97dp"
         android:layout_marginStart="106dp"
         android:layout_marginTop="42dp"
-        android:text="CountDown"
+        android:text="Time left: 60 seconds"
         android:textColor="#050505"
         android:textColorHint="#000000"
         android:textSize="34sp"
