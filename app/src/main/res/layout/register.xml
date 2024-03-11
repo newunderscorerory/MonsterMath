@@ -39,6 +39,7 @@
         android:hint="Password"
         android:inputType="text"
         android:password="true"
+        android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,8 +50,9 @@
         android:layout_marginStart="52dp"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="Full Name"
         android:inputType="text"
+        android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,6 +65,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="text"
+        android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +78,7 @@
         android:ems="10"
         android:hint="Username"
         android:inputType="text"
+        android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,6 +92,7 @@
         android:hint="Confirm Password"
         android:inputType="text"
         android:password="true"
+        android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

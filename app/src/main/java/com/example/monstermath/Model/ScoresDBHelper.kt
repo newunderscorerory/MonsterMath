@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class ScoresDBHelper(context: Context) : SQLiteOpenHelper(context, "Scores", null, 1) {
+class  ScoresDBHelper(context: Context) : SQLiteOpenHelper(context, "Scores", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("create table Scores(username TEXT primary key, highestScore INTEGER)")
