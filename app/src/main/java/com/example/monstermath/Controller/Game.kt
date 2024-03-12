@@ -1,7 +1,9 @@
 package com.example.monstermath.Controller
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ class Game : AppCompatActivity() {
     private lateinit var timerTextView: TextView
     private lateinit var questionsTextView: TextView
     private lateinit var dbHelper: MathQuestionsDBHelper
+    private lateinit var optionsGridView: GridView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +25,9 @@ class Game : AppCompatActivity() {
         questionsTextView = findViewById(R.id.Question)
         dbHelper = MathQuestionsDBHelper(this)
         dbHelper.insertDefaultQuestions()
+        optionsGridView = findViewById(R.id.optionsGridView)
 
-        // Start the countdown timer
+
         val millisInFuture: Long = 60000
         val countDownInterval: Long = 1000
         val countDownTimer = object : CountDownTimer(millisInFuture, countDownInterval) {
@@ -40,7 +44,6 @@ class Game : AppCompatActivity() {
         }
         countDownTimer.start()
 
-        // Fetch and display a random question
         displayRandomQuestion()
     }
 
@@ -50,10 +53,16 @@ class Game : AppCompatActivity() {
             val randomIndex = (0 until questionList.size).random()
             val randomQuestion = questionList[randomIndex]
             questionsTextView.text = randomQuestion.question
+
+            val optionsAsString = randomQuestion.options.map { it.toString() }
+
+            val optionsAdapter = ArrayAdapter<String>(this, R.layout.answers_layout, optionsAsString)
+            optionsGridView.adapter = optionsAdapter
         } else {
             questionsTextView.text = "No questions available"
         }
     }
+
 
 }
 
