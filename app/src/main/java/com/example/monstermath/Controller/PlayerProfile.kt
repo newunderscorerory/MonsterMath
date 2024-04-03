@@ -15,14 +15,12 @@ class PlayerProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.playerprofile)
 
-
         dbHelper = CustomerDBHelper(this)
 
-        // Get the username from intent extras
-        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("USERNAME", "")
+        // Retrieve the username extra from the Intent
+        val username = intent.getStringExtra("USERNAME")
 
-        // Retrieve user information from the database
+        // Retrieve user information from the database using the username
         val user = dbHelper.getAllCustomers().find { it.username == username }
 
         // Populate the UI with user information
@@ -30,4 +28,5 @@ class PlayerProfile : AppCompatActivity() {
         findViewById<TextView>(R.id.emailTextView).text = "Email: ${user?.email}"
         findViewById<TextView>(R.id.fullnameTextView).text = "Fullname: ${user?.fullname}"
     }
+
 }

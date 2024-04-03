@@ -43,6 +43,8 @@ class LogIn : AppCompatActivity() {
                     editor.putString("USERNAME", username)
                     editor.apply()
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+
+                    // Navigate to the menu activity
                     val intent = Intent(this, StartGame::class.java)
                     startActivity(intent)
                     finish()
@@ -51,6 +53,7 @@ class LogIn : AppCompatActivity() {
                 }
             }
         }
+
 
         registerButton.setOnClickListener {
             val intent = Intent(this, Register::class.java)

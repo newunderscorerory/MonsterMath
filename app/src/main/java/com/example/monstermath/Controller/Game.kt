@@ -1,16 +1,16 @@
 package com.example.monstermath.Controller
+
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.GridView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.monstermath.Model.MathQuestions
+import com.example.monstermath.Model.CustomerDBHelper
 import com.example.monstermath.Model.MathQuestionsDBHelper
 import com.example.monstermath.R
+
 class Game : AppCompatActivity() {
 
     private lateinit var timerTextView: TextView
@@ -19,6 +19,8 @@ class Game : AppCompatActivity() {
     private lateinit var optionsGridView: GridView
     private lateinit var scoreTextView: TextView
     private var score: Int = 0
+    private lateinit var username: String
+    private lateinit var customerDBHelper: CustomerDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,12 @@ class Game : AppCompatActivity() {
         dbHelper.insertDefaultQuestions()
         scoreTextView = findViewById(R.id.scoreTextView)
         optionsGridView = findViewById(R.id.optionsGridView)
+
+        // Retrieve the username from the intent or wherever it's stored
+        username = "username" // Replace with actual username retrieval
+
+        // Initialize CustomerDBHelper
+        customerDBHelper = CustomerDBHelper(this)
 
         val millisInFuture: Long = 60000
         val countDownInterval: Long = 1000
@@ -43,6 +51,7 @@ class Game : AppCompatActivity() {
 
             override fun onFinish() {
                 timerTextView.text = "00:00"
+                updateHighScore()
                 if (score >= 100) {
                     val intent = Intent(this@Game, Win::class.java)
                     startActivity(intent)
@@ -93,6 +102,11 @@ class Game : AppCompatActivity() {
     private fun updateScoreDisplay(score: Int) {
         scoreTextView.text = "Score: $score"
     }
+
+    private fun updateHighScore() {
+        val currentHighScore = customerDBHelper.getHighScore(username)
+        if (score > currentHighScore) {
+            customerDBHelper.updateHighScore(username, score)
+        }
+    }
 }
-
-
