@@ -49,6 +49,8 @@ class Register : AppCompatActivity() {
 
                     if (saveData) {
                         Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
                     }

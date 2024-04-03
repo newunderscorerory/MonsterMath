@@ -1,5 +1,6 @@
 package com.example.monstermath.Controller
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -37,6 +38,10 @@ class LogIn : AppCompatActivity() {
             } else {
                 val isAuthenticated = db.checkPass(username, password)
                 if (isAuthenticated) {
+                    val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("USERNAME", username)
+                    editor.apply()
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, StartGame::class.java)
                     startActivity(intent)

@@ -17,6 +17,12 @@ class StartGame : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val profileButton: Button = findViewById(R.id.playerprofile)
+        profileButton.setOnClickListener {
+            val intent = Intent(this, PlayerProfile::class.java)
+            startActivity(intent)
+        }
+
 
     }
 }

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Username"
+        android:id="@+id/usernameTextView"
         android:layout_width="248dp"
         android:layout_height="75dp"
         android:layout_marginStart="68dp"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/gamescomplete"
+        android:id="@+id/emailTextView"
         android:layout_width="268dp"
         android:layout_height="113dp"
         android:layout_marginStart="68dp"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/HighScore"
+        android:id="@+id/fullnameTextView"
         android:layout_width="268dp"
         android:layout_height="113dp"
         android:layout_marginStart="68dp"

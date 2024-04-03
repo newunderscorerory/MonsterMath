@@ -7,7 +7,7 @@
     android:background="@color/back">
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/winReturn"
         android:layout_width="156dp"
         android:layout_height="110dp"
         android:layout_marginStart="127dp"

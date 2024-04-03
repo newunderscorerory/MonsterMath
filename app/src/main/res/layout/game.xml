@@ -9,15 +9,15 @@
 
     <TextView
         android:id="@+id/Question"
-        android:layout_width="245dp"
-        android:layout_height="139dp"
+        android:layout_width="229dp"
+        android:layout_height="72dp"
         android:layout_marginStart="104dp"
         android:layout_marginTop="156dp"
         android:text="Question"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textColorHint="#000000"
-        android:textSize="40sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,8 +25,8 @@
         android:id="@+id/Countdown"
         android:layout_width="198dp"
         android:layout_height="97dp"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="16dp"
         android:text="Time left: 60 seconds"
         android:textColor="#050505"
         android:textColorHint="#000000"
@@ -76,6 +76,17 @@
         android:horizontalSpacing="4dp"
         android:numColumns="2"
         android:verticalSpacing="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="201dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="252dp"
+        android:text="Score"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
