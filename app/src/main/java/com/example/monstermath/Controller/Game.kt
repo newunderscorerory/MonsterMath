@@ -7,20 +7,18 @@ import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.monstermath.Model.CustomerDBHelper
-import com.example.monstermath.Model.MathQuestionsDBHelper
+import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
 
 class Game : AppCompatActivity() {
 
     private lateinit var timerTextView: TextView
     private lateinit var questionsTextView: TextView
-    private lateinit var dbHelper: MathQuestionsDBHelper
+    private lateinit var dbHelper: MonsterMathDBHelper
     private lateinit var optionsGridView: GridView
     private lateinit var scoreTextView: TextView
     private var score: Int = 0
     private lateinit var username: String
-    private lateinit var customerDBHelper: CustomerDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +26,7 @@ class Game : AppCompatActivity() {
 
         timerTextView = findViewById(R.id.Countdown)
         questionsTextView = findViewById(R.id.Question)
-        dbHelper = MathQuestionsDBHelper(this)
+        dbHelper = MonsterMathDBHelper(this)
         dbHelper.insertDefaultQuestions()
         scoreTextView = findViewById(R.id.scoreTextView)
         optionsGridView = findViewById(R.id.optionsGridView)
@@ -36,8 +34,6 @@ class Game : AppCompatActivity() {
         // Retrieve the username from the intent or wherever it's stored
         username = "username" // Replace with actual username retrieval
 
-        // Initialize CustomerDBHelper
-        customerDBHelper = CustomerDBHelper(this)
 
         val millisInFuture: Long = 60000
         val countDownInterval: Long = 1000
@@ -56,7 +52,7 @@ class Game : AppCompatActivity() {
                     val intent = Intent(this@Game, Win::class.java)
                     startActivity(intent)
                 } else {
-                    val intent = Intent(this@Game, Loose::class.java)
+                    val intent = Intent(this@Game, Lose::class.java)
                     startActivity(intent)
                 }
                 finish()
@@ -66,24 +62,37 @@ class Game : AppCompatActivity() {
 
         optionsGridView.setOnItemClickListener { _, _, position, _ ->
             val selectedOption = optionsGridView.adapter.getItem(position) as String
-            val questionList = dbHelper.getAllQuestions()
 
-            val correctAnswer =
-                questionList.find { it.question == questionsTextView.text }?.correctAnswer.toString()
+            val currentQuestion = questionsTextView.text.toString()
+            val currentDifficulty = intent.getStringExtra("DIFFICULTY")
 
-            if (selectedOption == correctAnswer) {
-                score += 10
-                updateScoreDisplay(score)
+            if (currentDifficulty != null) {
+                val questionList = dbHelper.getQuestionsByDifficulty(currentDifficulty)
+                val correctAnswer = questionList.find { it.question == currentQuestion }?.correctAnswer.toString()
+
+                if (selectedOption == correctAnswer) {
+                    score += 10
+                    updateScoreDisplay(score)
+                }
+
+                displayRandomQuestion(currentDifficulty)
             }
-
-            displayRandomQuestion()
+            else {
+            }
         }
 
-        displayRandomQuestion()
+        val intent = intent
+        val selectedDifficulty = intent.getStringExtra("DIFFICULTY")
+
+        if (selectedDifficulty != null) {
+            displayRandomQuestion(selectedDifficulty)
+        } else {
+        }
     }
 
-    private fun displayRandomQuestion() {
-        val questionList = dbHelper.getAllQuestions()
+
+    private fun displayRandomQuestion(difficulty: String) {
+        val questionList = dbHelper.getQuestionsByDifficulty(difficulty)
         if (questionList.isNotEmpty()) {
             val randomIndex = (0 until questionList.size).random()
             val randomQuestion = questionList[randomIndex]
@@ -99,14 +108,15 @@ class Game : AppCompatActivity() {
         }
     }
 
+
     private fun updateScoreDisplay(score: Int) {
         scoreTextView.text = "Score: $score"
     }
 
     private fun updateHighScore() {
-        val currentHighScore = customerDBHelper.getHighScore(username)
+        val currentHighScore = dbHelper.getHighScore(username)
         if (score > currentHighScore) {
-            customerDBHelper.updateHighScore(username, score)
+            dbHelper.updateHighScore(username, score)
         }
     }
 }

@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.R
 
-class Loose : AppCompatActivity() {
+class Lose : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.loose)
+        setContentView(R.layout.lose)
 
     }
 }

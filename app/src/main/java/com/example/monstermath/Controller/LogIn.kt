@@ -8,16 +8,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.monstermath.Model.CustomerDBHelper
+import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
 
+///var GlobalUser: String = ""
 class LogIn : AppCompatActivity() {
 
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
-    private lateinit var db: CustomerDBHelper
+    private lateinit var db: MonsterMathDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class LogIn : AppCompatActivity() {
         passwordEditText = findViewById(R.id.passwordLogIn)
         loginButton = findViewById(R.id.go)
         registerButton = findViewById(R.id.takeToRegister)
-        db = CustomerDBHelper(this)
+        db = MonsterMathDBHelper(this)
 
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
@@ -58,7 +59,7 @@ class LogIn : AppCompatActivity() {
         registerButton.setOnClickListener {
             val intent = Intent(this, Register::class.java)
             startActivity(intent)
-            finish() // finish this activity to prevent going back to register
+            finish()
         }
     }
 }

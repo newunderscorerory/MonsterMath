@@ -7,7 +7,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.widget.Toast
-import com.example.monstermath.Model.CustomerDBHelper
+import com.example.monstermath.Model.MonsterMathDBHelper
 
 import com.example.monstermath.R
 
@@ -18,7 +18,7 @@ class Register : AppCompatActivity() {
     private lateinit var confirm: EditText
     private lateinit var email: EditText
     private lateinit var fullname: EditText
-    private lateinit var db: CustomerDBHelper
+    private lateinit var db: MonsterMathDBHelper
     private lateinit var register: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class Register : AppCompatActivity() {
         confirm = findViewById(R.id.ConfirmPassword)
         email = findViewById(R.id.Email)
         fullname = findViewById(R.id.Name)
-        db = CustomerDBHelper(this)
+        db = MonsterMathDBHelper(this)
         register = findViewById(R.id.registerButton)
 
         register.setOnClickListener {

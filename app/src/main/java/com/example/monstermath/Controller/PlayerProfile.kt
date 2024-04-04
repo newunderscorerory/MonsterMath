@@ -1,21 +1,20 @@
 package com.example.monstermath.Controller
 
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.R
 import android.widget.TextView
 
-import com.example.monstermath.Model.CustomerDBHelper
+import com.example.monstermath.Model.MonsterMathDBHelper
 
 class PlayerProfile : AppCompatActivity() {
 
-    private lateinit var dbHelper: CustomerDBHelper
+    private lateinit var dbHelper: MonsterMathDBHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.playerprofile)
 
-        dbHelper = CustomerDBHelper(this)
+        dbHelper = MonsterMathDBHelper(this)
 
         // Retrieve the username extra from the Intent
         val username = intent.getStringExtra("USERNAME")

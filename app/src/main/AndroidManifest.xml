@@ -29,7 +29,7 @@
         <activity android:name=".Controller.PlayerProfile"> </activity>
         <activity android:name=".Controller.StartGame"> </activity>
         <activity android:name=".Controller.Win"> </activity>
-        <activity android:name=".Controller.Loose"> </activity>
+        <activity android:name=".Controller.Lose"> </activity>
         <activity android:name=".Controller.ChooseDifficulty"> </activity>
 
 
