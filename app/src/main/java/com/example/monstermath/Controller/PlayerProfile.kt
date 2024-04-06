@@ -4,28 +4,43 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.R
 import android.widget.TextView
-
+import android.widget.Toast
 import com.example.monstermath.Model.MonsterMathDBHelper
 
 class PlayerProfile : AppCompatActivity() {
 
     private lateinit var dbHelper: MonsterMathDBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.playerprofile)
 
         dbHelper = MonsterMathDBHelper(this)
 
-        // Retrieve the username extra from the Intent
-        val username = intent.getStringExtra("USERNAME")
+        // Retrieve username from globalUser variable
+        val username = globalUser
 
         // Retrieve user information from the database using the username
-        val user = dbHelper.getAllCustomers().find { it.username == username }
+        val user = dbHelper.getCustomer(username)
 
-        // Populate the UI with user information
-        findViewById<TextView>(R.id.usernameTextView).text = "Username: ${user?.username}"
-        findViewById<TextView>(R.id.emailTextView).text = "Email: ${user?.email}"
-        findViewById<TextView>(R.id.fullnameTextView).text = "Fullname: ${user?.fullname}"
+
+
+        if (user != null) {
+            val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
+            val emailTextView = findViewById<TextView>(R.id.emailTextView)
+            val fullNameTextView = findViewById<TextView>(R.id.fullnameTextView)
+
+            usernameTextView.text = user.username
+            emailTextView.text = user.email  // Corrected this line to display the email
+            fullNameTextView.text = user.fullname
+
+            Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show()
+        } else {
+            // Handle case where user information is not found
+            Toast.makeText(this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show()
+        }
+
     }
-
 }
+
+

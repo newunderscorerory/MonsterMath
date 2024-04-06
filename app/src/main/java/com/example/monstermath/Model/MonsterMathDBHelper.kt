@@ -6,7 +6,10 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, "MonsterMath", null, 1) {
+private val DatabaseName = "MonsterMath.db"
+private val ver = 1
+
+class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, DatabaseName, null, ver) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
@@ -106,6 +109,33 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, "Monster
         db.close()
         return result
     }
+
+    fun getCustomer(username: String): Customer {
+        val db = this.readableDatabase
+        val columns = arrayOf("username", "password", "email", "fullname", "highScore")
+        val selection = "username = ?"
+        val selectionArgs = arrayOf(username)
+        val cursor = db.query("Customer", columns, selection, selectionArgs, null, null, null)
+        var customer = Customer("", "", "", "", 0)
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                val retrievedUsername = cursor.getString(cursor.getColumnIndex("username"))
+                val password = cursor.getString(cursor.getColumnIndex("password"))
+                val email = cursor.getString(cursor.getColumnIndex("email"))
+                val fullname = cursor.getString(cursor.getColumnIndex("fullname"))
+                val highScore = cursor.getInt(cursor.getColumnIndex("highScore"))
+
+                // Create a Customer object with the retrieved data
+                customer = Customer(retrievedUsername, password, email, fullname, highScore)
+            }
+            cursor.close()
+        }
+        db.close()
+        return customer
+    }
+
+
 
     fun getAllCustomers(): List<Customer> {
         val customerList = mutableListOf<Customer>()

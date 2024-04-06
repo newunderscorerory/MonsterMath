@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
 
-///var GlobalUser: String = ""
+var globalUser: String = ""
+
 class LogIn : AppCompatActivity() {
 
     private lateinit var usernameEditText: EditText
@@ -39,14 +40,12 @@ class LogIn : AppCompatActivity() {
             } else {
                 val isAuthenticated = db.checkPass(username, password)
                 if (isAuthenticated) {
-                    val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putString("USERNAME", username)
-                    editor.apply()
+                    globalUser = username
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
                     // Navigate to the menu activity
                     val intent = Intent(this, StartGame::class.java)
+                    intent.putExtra("username", username)
                     startActivity(intent)
                     finish()
                 } else {
