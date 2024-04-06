@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back"
-    android:textAlignment="gravity">
+    android:textAlignment="center">
 
     <TextView
         android:id="@+id/Question"
-        android:layout_width="229dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="156dp"
+        android:layout_width="266dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="172dp"
         android:text="Question"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textColorHint="#000000"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,12 +25,12 @@
         android:id="@+id/Countdown"
         android:layout_width="198dp"
         android:layout_height="97dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="48dp"
         android:text="Time left: 60 seconds"
         android:textColor="#050505"
         android:textColorHint="#000000"
-        android:textSize="34sp"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,8 +38,8 @@
         android:id="@+id/imageView5"
         android:layout_width="118dp"
         android:layout_height="105dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/four_arm_monster" />
@@ -66,10 +66,10 @@
 
     <GridView
         android:id="@+id/optionsGridView"
-        android:layout_width="342dp"
-        android:layout_height="312dp"
+        android:layout_width="337dp"
+        android:layout_height="233dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="412dp"
         android:background="#FFFFFF"
         android:divider="@android:color/black"
         android:dividerHeight="2dp"
@@ -81,12 +81,12 @@
 
     <TextView
         android:id="@+id/scoreTextView"
-        android:layout_width="201dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="252dp"
+        android:layout_width="234dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="296dp"
         android:text="Score"
-        android:textSize="24sp"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

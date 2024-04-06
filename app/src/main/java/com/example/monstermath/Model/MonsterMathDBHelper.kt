@@ -222,6 +222,26 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return result > 0
     }
 
+    fun updateCustomer(customer: Customer): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("password", customer.password)
+            put("email", customer.email)
+            put("fullname", customer.fullname)
+            // Add other columns as needed
+        }
+
+        // Updating row
+        return db.update(
+            "Customer",
+            values,
+            "username = ?",
+            arrayOf(customer.username)
+        )
+    }
+
+
+
     internal fun insertDefaultQuestions() {
         val db = writableDatabase
 

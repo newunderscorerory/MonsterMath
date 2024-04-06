@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/AddButton"
         android:layout_width="148dp"
         android:layout_height="77dp"
         android:layout_marginStart="128dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/EditButton"
         android:layout_width="148dp"
         android:layout_height="77dp"
         android:layout_marginStart="128dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/DeleteButton"
         android:layout_width="148dp"
         android:layout_height="77dp"
         android:layout_marginStart="128dp"

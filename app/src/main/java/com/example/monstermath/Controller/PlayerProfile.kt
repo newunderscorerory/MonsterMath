@@ -1,6 +1,8 @@
 package com.example.monstermath.Controller
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.R
 import android.widget.TextView
@@ -34,10 +36,15 @@ class PlayerProfile : AppCompatActivity() {
             emailTextView.text = user.email  // Corrected this line to display the email
             fullNameTextView.text = user.fullname
 
-            Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show()
         } else {
             // Handle case where user information is not found
             Toast.makeText(this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show()
+        }
+
+        val returnButton: Button = findViewById(R.id.back)
+        returnButton.setOnClickListener {
+            val intent = Intent(this, StartGame::class.java)
+            startActivity(intent)
         }
 
     }
