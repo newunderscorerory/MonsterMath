@@ -92,13 +92,39 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return highScore
     }
 
+    fun getHighScores(): List<String> {
+        val highScoreList = mutableListOf<String>()
+        val query = "SELECT username, highScore FROM Customer ORDER BY highScore DESC"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(query, null)
+
+        cursor.use {
+            while (it.moveToNext()) {
+                val username = it.getString(it.getColumnIndex("username"))
+                val highScore = it.getInt(it.getColumnIndex("highScore"))
+                val scoreEntry = "$username: $highScore"
+                highScoreList.add(scoreEntry)
+            }
+        }
+
+        cursor.close()
+        db.close()
+        return highScoreList
+    }
+
+
+
     fun updateHighScore(username: String, newHighScore: Int) {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put("highScore", newHighScore)
-        db.update("Customer", cv, "username = ?", arrayOf(username))
+        val db = writableDatabase
+        val cv = ContentValues().apply {
+            put("highScore", newHighScore)
+        }
+        val whereClause = "username = ? AND highScore < ?"
+        val whereArgs = arrayOf(username, newHighScore.toString())
+        db.update("Customer", cv, whereClause, whereArgs)
         db.close()
     }
+
 
     fun checkPass(username: String, password: String): Boolean {
         val db = this.writableDatabase

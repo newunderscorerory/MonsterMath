@@ -11,7 +11,7 @@
         android:layout_width="209dp"
         android:layout_height="108dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="464dp"
+        android:layout_marginTop="436dp"
         android:text="Start Game"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +23,16 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="308dp"
         android:text="Player Profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/leaderboard"
+        android:layout_width="209dp"
+        android:layout_height="108dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="568dp"
+        android:text="Leaderboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -32,7 +32,7 @@
         <activity android:name=".Controller.Lose"> </activity>
         <activity android:name=".Controller.ChooseDifficulty"> </activity>
         <activity android:name=".Controller.EditUser"></activity>
-
+        <activity android:name=".Controller.Leaderboard" />
 
     </application>
 

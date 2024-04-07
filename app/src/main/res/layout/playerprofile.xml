@@ -21,8 +21,8 @@
         android:id="@+id/usernameTextView"
         android:layout_width="248dp"
         android:layout_height="75dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="84dp"
         android:text="username"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,21 +30,32 @@
 
     <TextView
         android:id="@+id/emailTextView"
-        android:layout_width="268dp"
-        android:layout_height="113dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="388dp"
-        android:text="Game Complete"
+        android:layout_width="386dp"
+        android:layout_height="184dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="208dp"
+        android:text="Email"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/fullnameTextView"
+        android:layout_width="389dp"
+        android:layout_height="147dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="400dp"
+        android:text="Full Name"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/highScoreTextView"
         android:layout_width="268dp"
         android:layout_height="113dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="584dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="564dp"
         android:text="High Score"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"

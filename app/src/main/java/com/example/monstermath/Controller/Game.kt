@@ -32,8 +32,7 @@ class Game : AppCompatActivity() {
         optionsGridView = findViewById(R.id.optionsGridView)
 
         // Retrieve the username from the intent or wherever it's stored
-        username = "username" // Replace with actual username retrieval
-
+        username = globalUser
 
         val millisInFuture: Long = 60000
         val countDownInterval: Long = 1000
@@ -77,8 +76,6 @@ class Game : AppCompatActivity() {
 
                 displayRandomQuestion(currentDifficulty)
             }
-            else {
-            }
         }
 
         val intent = intent
@@ -86,7 +83,6 @@ class Game : AppCompatActivity() {
 
         if (selectedDifficulty != null) {
             displayRandomQuestion(selectedDifficulty)
-        } else {
         }
     }
 
@@ -114,9 +110,6 @@ class Game : AppCompatActivity() {
     }
 
     private fun updateHighScore() {
-        val currentHighScore = dbHelper.getHighScore(username)
-        if (score > currentHighScore) {
-            dbHelper.updateHighScore(username, score)
-        }
+        dbHelper.updateHighScore(username, score)
     }
 }

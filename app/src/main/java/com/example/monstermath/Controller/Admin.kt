@@ -63,7 +63,7 @@ class Admin : AppCompatActivity() {
         }
 
         // Set click listener for list items to handle deletion or editing
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, position, _ ->
             if (isDeleteMode) {
                 val selectedCustomer = customers[position]
                 val deleted = dbHelper.removeUser(selectedCustomer.username)

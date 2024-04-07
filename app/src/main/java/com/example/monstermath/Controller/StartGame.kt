@@ -29,5 +29,11 @@ class StartGame : AppCompatActivity() {
             intent.putExtra("USERNAME", username)
             startActivity(intent)
         }
+
+        val leaderButton: Button = findViewById(R.id.leaderboard)
+        leaderButton.setOnClickListener {
+            val intent = Intent(this, Leaderboard::class.java)
+            startActivity(intent)
+        }
     }
 }
