@@ -3,12 +3,13 @@ package com.example.monstermath.Controller
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import com.example.monstermath.Model.MonsterMathDBHelper
-
 import com.example.monstermath.R
 
 class Register : AppCompatActivity() {
@@ -25,7 +26,6 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
 
-
         username = findViewById(R.id.Username)
         password = findViewById(R.id.Password)
         confirm = findViewById(R.id.ConfirmPassword)
@@ -33,6 +33,7 @@ class Register : AppCompatActivity() {
         fullname = findViewById(R.id.Name)
         db = MonsterMathDBHelper(this)
         register = findViewById(R.id.registerButton)
+
 
         register.setOnClickListener {
             val userText = username.text.toString()
@@ -65,7 +66,6 @@ class Register : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 }
+

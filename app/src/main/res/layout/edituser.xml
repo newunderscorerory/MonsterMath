@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/back">
 
+    <Spinner
+        android:id="@+id/groupSpinner2"
+        android:layout_width="308dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="484dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/editButton"
         android:layout_width="173dp"
@@ -20,8 +29,8 @@
         android:id="@+id/EditAccount"
         android:layout_width="274dp"
         android:layout_height="89dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
         android:text="Edit Account"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -30,11 +39,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/UsernameEdit"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="256dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        android:textColorHint="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
         android:id="@+id/PasswordEdit"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="332dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="text"
@@ -44,24 +66,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/NameEdit"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="150dp"
-        android:ems="10"
-        android:hint="Full Name"
-        android:inputType="text"
-        android:textColorHint="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/EmailEdit"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="184dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="text"
@@ -70,13 +79,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/UsernameEdit"
+        android:id="@+id/NameEdit"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="104dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Full Name"
         android:inputType="text"
         android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +96,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="484dp"
+        android:layout_marginTop="404dp"
         android:ems="10"
         android:hint="Confirm Password"
         android:inputType="text"

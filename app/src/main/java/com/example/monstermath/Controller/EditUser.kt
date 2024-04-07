@@ -40,6 +40,7 @@ class EditUser : AppCompatActivity() {
                     findViewById<EditText>(R.id.PasswordEdit).text.toString(),
                     findViewById<EditText>(R.id.EmailEdit).text.toString(),
                     findViewById<EditText>(R.id.NameEdit).text.toString(),
+
                     user.highScore
                 )
                 dbHelper.updateCustomer(updatedUser)

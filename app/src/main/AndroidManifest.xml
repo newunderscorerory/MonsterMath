@@ -30,9 +30,10 @@
         <activity android:name=".Controller.StartGame"> </activity>
         <activity android:name=".Controller.Win"> </activity>
         <activity android:name=".Controller.Lose"> </activity>
-        <activity android:name=".Controller.ChooseDifficulty"> </activity>
+        <activity android:name=".Controller.ChooseDifficulty"></activity>
         <activity android:name=".Controller.EditUser"></activity>
-        <activity android:name=".Controller.Leaderboard" />
+        <activity android:name=".Controller.Leaderboard" ></activity>
+        <activity android:name=".Controller.AdminLogIn"></activity>
 
     </application>
 

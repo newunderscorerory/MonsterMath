@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val adminButton: Button = findViewById(R.id.teachers)
         adminButton.setOnClickListener {
-            val intent = Intent(this, Admin::class.java)
+            val intent = Intent(this, AdminLogIn::class.java)
             startActivity(intent)
         }
     }
