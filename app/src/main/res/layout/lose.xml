@@ -7,7 +7,7 @@
     android:background="@color/back">
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/winReturn"
         android:layout_width="156dp"
         android:layout_height="110dp"
         android:layout_marginStart="127dp"
@@ -34,8 +34,10 @@
         android:id="@+id/imageView9"
         android:layout_width="211dp"
         android:layout_height="236dp"
-        app:srcCompat="@drawable/four_arm_monster"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="322dp" />
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="322dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/four_arm_monster" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

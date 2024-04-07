@@ -6,13 +6,14 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/yellow_monster"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/yellow_monster"
         android:supportsRtl="true"
         android:theme="@style/Theme.MonsterMath"
         tools:targetApi="31">
         <activity android:name=".Controller.LogIn"></activity>
+        <activity android:name=".Controller.Game"></activity>
         <activity
             android:name=".Controller.MainActivity"
             android:exported="true">
@@ -22,6 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Controller.Register"> </activity>
+        <activity android:name=".Controller.Admin"> </activity>
+        <activity android:name=".Controller.PlayerProfile"> </activity>
+        <activity android:name=".Controller.StartGame"> </activity>
+        <activity android:name=".Controller.Win"> </activity>
+        <activity android:name=".Controller.Lose"> </activity>
+        <activity android:name=".Controller.ChooseDifficulty"> </activity>
+        <activity android:name=".Controller.EditUser"></activity>
+        <activity android:name=".Controller.Leaderboard" />
+
     </application>
 
 </manifest>
