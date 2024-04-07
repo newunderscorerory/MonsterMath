@@ -34,7 +34,7 @@ class PlayerProfile : AppCompatActivity() {
             usernameTextView.text = user.username
             emailTextView.text = "Email: ${user.email}"
             fullNameTextView.text = "Full Name: ${user.fullname}"
-            highScoreTextView.text = "High Score: ${user.highScore}" // Display high score
+            highScoreTextView.text = "High Score: ${user.highScore}"
         } else {
             // Handle case where user information is not found
             Toast.makeText(this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show()

@@ -11,8 +11,8 @@
         android:id="@+id/Question"
         android:layout_width="266dp"
         android:layout_height="82dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="204dp"
         android:text="Question"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -89,5 +89,18 @@
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:progress="100"
+        android:progressTint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Countdown" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

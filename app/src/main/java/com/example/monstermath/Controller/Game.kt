@@ -1,12 +1,15 @@
 package com.example.monstermath.Controller
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.ArrayAdapter
 import android.widget.GridView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
 
@@ -19,6 +22,8 @@ class Game : AppCompatActivity() {
     private lateinit var scoreTextView: TextView
     private var score: Int = 0
     private lateinit var username: String
+    private lateinit var progressBar: ProgressBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +35,8 @@ class Game : AppCompatActivity() {
         dbHelper.insertDefaultQuestions()
         scoreTextView = findViewById(R.id.scoreTextView)
         optionsGridView = findViewById(R.id.optionsGridView)
-
-        // Retrieve the username from the intent or wherever it's stored
+        progressBar = findViewById(R.id.progressBar)
+        progressBar.max = 60
         username = globalUser
 
         val millisInFuture: Long = 60000
@@ -42,6 +47,7 @@ class Game : AppCompatActivity() {
                 val minutes = secondsRemaining / 60
                 val seconds = secondsRemaining % 60
                 timerTextView.text = String.format("%02d:%02d", minutes, seconds)
+                progressBar.progress = (millisUntilFinished / 1000).toInt()
             }
 
             override fun onFinish() {

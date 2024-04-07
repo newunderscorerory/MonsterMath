@@ -10,19 +10,9 @@
         android:id="@+id/start"
         android:layout_width="209dp"
         android:layout_height="108dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="436dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="372dp"
         android:text="Start Game"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/playerprofile"
-        android:layout_width="209dp"
-        android:layout_height="108dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="308dp"
-        android:text="Player Profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,19 +20,40 @@
         android:id="@+id/leaderboard"
         android:layout_width="209dp"
         android:layout_height="108dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="568dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="504dp"
         android:text="Leaderboard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/playerprofile"
+        android:layout_width="209dp"
+        android:layout_height="108dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="244dp"
+        android:text="Player Profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="299dp"
-        android:layout_height="245dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="243dp"
+        android:layout_height="196dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/monster_with_magnifying_glass" />
+
+    <Button
+        android:id="@+id/LogOut"
+        android:layout_width="121dp"
+        android:layout_height="109dp"
+        android:layout_marginStart="284dp"
+        android:layout_marginTop="4dp"
+        android:text="Log Out"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

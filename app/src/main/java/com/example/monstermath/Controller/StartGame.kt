@@ -35,5 +35,11 @@ class StartGame : AppCompatActivity() {
             val intent = Intent(this, Leaderboard::class.java)
             startActivity(intent)
         }
+
+        val logoutButton: Button = findViewById(R.id.LogOut)
+        logoutButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
