@@ -19,23 +19,26 @@
 
     <TextView
         android:id="@+id/usernameTextView"
-        android:layout_width="248dp"
-        android:layout_height="75dp"
+        android:layout_width="404dp"
+        android:layout_height="126dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="84dp"
         android:text="username"
-        android:textSize="48sp"
+        android:textColor="@color/black"
+        android:textSize="75dp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/emailTextView"
-        android:layout_width="386dp"
-        android:layout_height="184dp"
+        android:layout_width="328dp"
+        android:layout_height="147dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="376dp"
         android:text="Email"
-        android:textSize="48sp"
+        android:textColor="@color/black"
+        android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,9 +47,10 @@
         android:layout_width="389dp"
         android:layout_height="147dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="220dp"
         android:text="Full Name"
-        android:textSize="48sp"
+        android:textColor="@color/black"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +61,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="564dp"
         android:text="High Score"
-        android:textSize="48sp"
+        android:textColor="@color/black"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,8 +70,8 @@
         android:id="@+id/imageView2"
         android:layout_width="164dp"
         android:layout_height="187dp"
-        android:layout_marginStart="231dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="500dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/two_eyed_green_monster__1_" />
