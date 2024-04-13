@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.Model.Customer
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
+import com.example.monstermath.Utils.PasswordHashing
 
 class EditUser : AppCompatActivity() {
 
@@ -29,18 +30,22 @@ class EditUser : AppCompatActivity() {
 
             // Populate EditText fields with user information
             findViewById<EditText>(R.id.UsernameEdit).setText(user.username)
-            findViewById<EditText>(R.id.PasswordEdit).setText(user.password)
             findViewById<EditText>(R.id.EmailEdit).setText(user.email)
             findViewById<EditText>(R.id.NameEdit).setText(user.fullname)
 
             findViewById<Button>(R.id.editButton).setOnClickListener {
-                // Update user information in the database
+                // Get the new password from the EditText field
+                val newPassword = findViewById<EditText>(R.id.PasswordEdit).text.toString()
+
+                // Hash the new password
+                val hashedPassword = PasswordHashing.hashPassword(newPassword)
+
+                // Update user information with hashed password in the database
                 val updatedUser = Customer(
                     username,
-                    findViewById<EditText>(R.id.PasswordEdit).text.toString(),
+                    hashedPassword, // Use the hashed password
                     findViewById<EditText>(R.id.EmailEdit).text.toString(),
                     findViewById<EditText>(R.id.NameEdit).text.toString(),
-
                     user.highScore
                 )
                 dbHelper.updateCustomer(updatedUser)
@@ -53,15 +58,14 @@ class EditUser : AppCompatActivity() {
             finish()
         }
 
-
         val returnButton: Button = findViewById(R.id.retrunToAdmin)
         returnButton.setOnClickListener {
             val intent = Intent(this, Admin::class.java)
             startActivity(intent)
             finish()
         }
-
-
     }
 }
+
+
 

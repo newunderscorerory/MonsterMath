@@ -43,7 +43,7 @@ class Admin : AppCompatActivity() {
 
         val addButton: Button = findViewById(R.id.AddButton)
         addButton.setOnClickListener {
-            val intent = Intent(this, Register::class.java)
+            val intent = Intent(this, AdminAddUser::class.java)
             startActivity(intent)
         }
 

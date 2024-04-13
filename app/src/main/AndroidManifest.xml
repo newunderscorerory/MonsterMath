@@ -34,6 +34,7 @@
         <activity android:name=".Controller.EditUser"></activity>
         <activity android:name=".Controller.Leaderboard" ></activity>
         <activity android:name=".Controller.AdminLogIn"></activity>
+        <activity android:name=".Controller.AdminAddUser"></activity>
 
     </application>
 
