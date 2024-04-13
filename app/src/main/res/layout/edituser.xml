@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/back">
 
-    <Spinner
-        android:id="@+id/groupSpinner2"
-        android:layout_width="308dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="484dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/editButton"

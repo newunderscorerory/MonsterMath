@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
+import com.example.monstermath.Utils.PasswordHashing.hashPassword
 
 class Register : AppCompatActivity() {
 
@@ -36,7 +37,7 @@ class Register : AppCompatActivity() {
 
 
         register.setOnClickListener {
-            val userText = username.text.toString()
+            val userText = username.text.toString().toLowerCase()
             val passText = password.text.toString()
             val conText = confirm.text.toString()
             val emailText = email.text.toString()
@@ -46,7 +47,8 @@ class Register : AppCompatActivity() {
                 Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT).show()
             } else {
                 if (passText == conText) {
-                    val saveData = db.insertData(userText, passText, emailText, fullnameText)
+                    val hashedPassword = hashPassword(passText)
+                    val saveData = db.insertData(userText, hashedPassword, emailText, fullnameText)
 
                     if (saveData) {
                         Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()

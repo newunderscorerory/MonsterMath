@@ -17,15 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/RegisterConfirm"
-        android:layout_width="271dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="24dp"
-        android:text="Register Account"
+    <EditText
+        android:id="@+id/Email"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="204dp"
+        android:autoLink="email"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="text"
         android:textColor="@color/black"
-        android:textSize="34sp"
+        android:textColorHint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +37,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="356dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="text"
@@ -49,37 +52,9 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="128dp"
         android:ems="10"
         android:hint="Full Name"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/Email"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="168dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/Username"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="244dp"
-        android:ems="10"
-        android:hint="Username"
         android:inputType="text"
         android:textColor="@color/black"
         android:textColorHint="#000000"
@@ -91,7 +66,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="392dp"
+        android:layout_marginTop="428dp"
         android:ems="10"
         android:hint="Confirm Password"
         android:inputType="text"
@@ -101,15 +76,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Spinner
-        android:id="@+id/groupSpinner"
-        android:layout_width="308dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="472dp"
+    <TextView
+        android:id="@+id/RegisterConfirm"
+        android:layout_width="271dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="60dp"
+        android:text="Register Account"
+        android:textColor="@color/black"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Username"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="280dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/ReturnToHome"

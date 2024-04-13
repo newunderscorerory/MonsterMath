@@ -100,13 +100,14 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
 
     fun checkPass(username: String, password: String): Boolean {
         val db = this.writableDatabase
-        val query = "SELECT * FROM Customer WHERE username= '$username' AND password= '$password'"
-        val cursor = db.rawQuery(query, null)
+        val query = "SELECT * FROM Customer WHERE LOWER(username) = LOWER(?) AND password = ?"
+        val cursor = db.rawQuery(query, arrayOf(username.toLowerCase(), password))
         val result = cursor.count > 0
         cursor.close()
         db.close()
         return result
     }
+
 
     fun getCustomer(username: String): Customer {
         val db = this.readableDatabase
@@ -196,54 +197,6 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
     internal fun insertDefaultQuestions() {
         val db = writableDatabase
 
-        addQuestionWithOptions("Addition and Subtraction", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
-        addQuestionWithOptions("Addition and Subtraction", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
-        addQuestionWithOptions("Addition and Subtraction", "What is 10 - 4?", 6, listOf(8, 5, 7, 6))
-        addQuestionWithOptions("Addition and Subtraction", "What is 10 + 2?", 12, listOf(12, 9, 7, 4))
-        addQuestionWithOptions("Addition and Subtraction", "What is 7 + 6?", 13, listOf(15, 13, 10, 12))
-        addQuestionWithOptions("Addition and Subtraction", "What is 15 - 9?", 6, listOf(8, 6, 4, 10))
-        addQuestionWithOptions("Addition and Subtraction", "What is 20 + 3?", 23, listOf(23, 19, 25, 21))
-        addQuestionWithOptions("Addition and Subtraction", "What is 18 - 7?", 11, listOf(11, 10, 13, 8))
-        addQuestionWithOptions("Addition and Subtraction", "What is 25 + 9?", 34, listOf(30, 34, 32, 28))
-        addQuestionWithOptions("Addition and Subtraction", "What is 17 + 9?", 26, listOf(23, 28, 26, 25))
-        addQuestionWithOptions("Addition and Subtraction", "What is 42 - 18?", 24, listOf(24, 20, 26, 22))
-        addQuestionWithOptions("Addition and Subtraction", "What is 55 + 27?", 82, listOf(82, 80, 85, 75))
-        addQuestionWithOptions("Addition and Subtraction", "What is 63 - 29?", 34, listOf(32, 36, 34, 30))
-        addQuestionWithOptions("Addition and Subtraction", "What is 98 + 16?", 114, listOf(110, 120, 105, 114))
-        addQuestionWithOptions("Addition and Subtraction", "What is 116 - 42?", 74, listOf(74, 78, 72, 68))
-        addQuestionWithOptions("Addition and Subtraction", "What is 135 + 28?", 163, listOf(155, 163, 160, 168))
-        addQuestionWithOptions("Addition and Subtraction", "What is 142 - 77?", 65, listOf(68, 65, 62, 58))
-        addQuestionWithOptions("Addition and Subtraction", "What is 178 + 35?", 213, listOf(213, 205, 220, 200))
-        addQuestionWithOptions("Addition and Subtraction", "What is 197 - 92?", 105, listOf(108, 105, 102, 98))
-
-        addQuestionWithOptions("Multiplication and Division", "What is 4 * 5?", 20, listOf(20, 18, 22, 15))
-        addQuestionWithOptions("Multiplication and Division", "What is 12 / 3?", 4, listOf(4, 5, 3, 2))
-        addQuestionWithOptions("Multiplication and Division", "What is 2 * 9?", 18, listOf(15, 18, 12, 21))
-        addQuestionWithOptions("Multiplication and Division", "What is 3 * 7?", 21, listOf(21, 24, 18, 15))
-        addQuestionWithOptions("Multiplication and Division", "What is 4 * 8?", 32, listOf(32, 28, 36, 24))
-        addQuestionWithOptions("Multiplication and Division", "What is 6 * 6?", 36, listOf(39, 36, 33, 30))
-        addQuestionWithOptions("Multiplication and Division", "What is 7 * 5?", 35, listOf(38, 35, 32, 28))
-        addQuestionWithOptions("Multiplication and Division", "What is 8 * 4?", 32, listOf(24, 36, 32, 28))
-        addQuestionWithOptions("Multiplication and Division", "What is 9 * 3?", 27, listOf(24, 27, 30, 21))
-        addQuestionWithOptions("Multiplication and Division", "What is 10 * 2?", 20, listOf(17, 20, 14, 23))
-        addQuestionWithOptions("Multiplication and Division", "What is 11 * 3?", 33, listOf(30, 36, 33, 27))
-        addQuestionWithOptions("Multiplication and Division", "What is 12 * 12?", 144, listOf(156, 144, 120, 132))
-
-        addQuestionWithOptions("All", "What is 5 + 3?", 8, listOf(9, 8, 7, 6))
-        addQuestionWithOptions("All", "What is 10 - 4?", 6, listOf(5, 7, 8, 6))
-        addQuestionWithOptions("All", "What is 10 + 2?", 12, listOf(12, 4, 9, 7))
-        addQuestionWithOptions("All", "What is 7 + 6?", 13, listOf(10, 12, 15, 13))
-        addQuestionWithOptions("All", "What is 15 - 9?", 6, listOf(6, 4, 10, 8))
-        addQuestionWithOptions("All", "What is 20 + 3?", 23, listOf(25, 21, 19, 23))
-        addQuestionWithOptions("All", "What is 18 - 7?", 11, listOf(10, 11, 8, 13))
-        addQuestionWithOptions("All", "What is 25 + 9?", 34, listOf(28, 32, 34, 30))
-        addQuestionWithOptions("All", "What is 30 * 4?", 120, listOf(120, 100, 110, 130))
-        addQuestionWithOptions("All", "What is 36 / 6?", 6, listOf(4, 7, 6, 5))
-        addQuestionWithOptions("All", "What is 9 + 4?", 13, listOf(12, 15, 13, 10))
-        addQuestionWithOptions("All", "What is 14 - 7?", 7, listOf(7, 9, 5, 11))
-        addQuestionWithOptions("All", "What is 20 + 3?", 23, listOf(21, 25, 19, 23))
-        addQuestionWithOptions("All", "What is 18 - 7?", 11, listOf(10, 8, 13, 11))
-        addQuestionWithOptions("All", "What is 25 + 9?", 34, listOf(30, 34, 28, 32))
 
         // For addition questions
         addQuestionWithOptions("Addition", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
@@ -370,6 +323,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return questionList
     }
 
+
     fun addQuestionWithOptions(
         category: String,
         question: String,
@@ -377,14 +331,15 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         options: List<Int>
     ): Boolean {
         val db = this.writableDatabase
+        val shuffledOptions = options.shuffled() // Shuffle the options list
         val cv = ContentValues().apply {
             put("category", category)
             put("question", question)
             put("correctAnswer", answer)
-            put("option1", options[0])
-            put("option2", options[1])
-            put("option3", options[2])
-            put("option4", options[3])
+            put("option1", shuffledOptions[0]) // Use shuffled options
+            put("option2", shuffledOptions[1])
+            put("option3", shuffledOptions[2])
+            put("option4", shuffledOptions[3])
         }
         val result = db.insert("MathQuestions", null, cv)
         db.close()
