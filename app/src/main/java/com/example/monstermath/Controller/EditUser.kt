@@ -46,7 +46,10 @@ class EditUser : AppCompatActivity() {
                     hashedPassword, // Use the hashed password
                     findViewById<EditText>(R.id.EmailEdit).text.toString(),
                     findViewById<EditText>(R.id.NameEdit).text.toString(),
-                    user.highScore
+                    user.highScore,
+                    user.reward1,
+                    user.reward2,
+                    user.reward3
                 )
                 dbHelper.updateCustomer(updatedUser)
                 Toast.makeText(this, "User information updated", Toast.LENGTH_SHORT).show()

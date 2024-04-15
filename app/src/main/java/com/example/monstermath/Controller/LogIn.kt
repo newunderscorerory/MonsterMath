@@ -32,6 +32,8 @@ class LogIn : AppCompatActivity() {
         registerButton = findViewById(R.id.takeToRegister)
         db = MonsterMathDBHelper(this)
 
+        db.insertDefualtRewards()
+
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString().toLowerCase()
             val password = passwordEditText.text.toString()

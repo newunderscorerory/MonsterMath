@@ -5,11 +5,12 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.monstermath.R
 
 private val DatabaseName = "MonsterMath.db"
-private val ver = 1
+private val DATABASE_VERSION = 1
 
-class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, DatabaseName, null, ver) {
+class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, DatabaseName, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
@@ -18,7 +19,10 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                     "password TEXT," +
                     "email TEXT," +
                     "fullname TEXT," +
-                    "highScore INTEGER DEFAULT 0)"
+                    "highScore INTEGER DEFAULT 0," +
+                    "reward1 BOOLEAN DEFAULT 0," +
+                    "reward2 INTEGER DEFAULT 0," +
+                    "reward3 INTEGER DEFAULT 0)"
         )
 
 
@@ -34,13 +38,22 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                     "option3 INTEGER," +
                     "option4 INTEGER)"
         )
+
+        db?.execSQL(
+            "CREATE TABLE Reward (" +
+                    "id INTEGER PRIMARY KEY," +
+                    "name TEXT," +
+                    "description TEXT," +
+                    "image_resource_id INTEGER)"
+        )
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS Customer")
-        db?.execSQL("DROP TABLE IF EXISTS Class")
-        db?.execSQL("DROP TABLE IF EXISTS UserClass")
         db?.execSQL("DROP TABLE IF EXISTS MathQuestions")
+        db?.execSQL("DROP TABLE IF EXISTS Reward")
         onCreate(db)
     }
 
@@ -49,7 +62,10 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         password: String,
         email: String,
         fullname: String,
-        highScore: Int = 0 // Default value for highScore
+        highScore: Int = 0,
+        reward1: Int = 0,
+        reward2: Int = 0,
+        reward3: Int = 0
     ): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -58,6 +74,9 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         cv.put("email", email)
         cv.put("fullname", fullname)
         cv.put("highScore", highScore)
+        cv.put("reward1", reward1)
+        cv.put("reward2", reward2)
+        cv.put("reward3", reward3)
         val result = db.insert("Customer", null, cv)
         db.close()
         return result != -1L
@@ -90,6 +109,15 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         val db = writableDatabase
         val cv = ContentValues().apply {
             put("highScore", newHighScore)
+            if (newHighScore >= 100) {
+                put("reward1", 1)
+            }
+            if (newHighScore >= 250) {
+                put("reward2", 1)
+            }
+            if (newHighScore >= 500) {
+                put("reward3", 1)
+            }
         }
         val whereClause = "username = ? AND highScore < ?"
         val whereArgs = arrayOf(username, newHighScore.toString())
@@ -111,11 +139,11 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
 
     fun getCustomer(username: String): Customer {
         val db = this.readableDatabase
-        val columns = arrayOf("username", "password", "email", "fullname", "highScore")
+        val columns = arrayOf("username", "password", "email", "fullname", "highScore", "reward1", "reward2", "reward3")
         val selection = "username = ?"
         val selectionArgs = arrayOf(username)
         val cursor = db.query("Customer", columns, selection, selectionArgs, null, null, null)
-        var customer = Customer("", "", "", "", 0)
+        var customer = Customer("", "", "", "", 0, 0, 0, 0)
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -124,9 +152,12 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                 val email = cursor.getString(cursor.getColumnIndex("email"))
                 val fullname = cursor.getString(cursor.getColumnIndex("fullname"))
                 val highScore = cursor.getInt(cursor.getColumnIndex("highScore"))
+                val reward1 = cursor.getInt(cursor.getColumnIndex("reward1"))
+                val reward2 = cursor.getInt(cursor.getColumnIndex("reward2"))
+                val reward3= cursor.getInt(cursor.getColumnIndex("reward3"))
 
                 // Create a Customer object with the retrieved data
-                customer = Customer(retrievedUsername, password, email, fullname, highScore)
+                customer = Customer(retrievedUsername, password, email, fullname, highScore, reward1, reward2, reward3)
             }
             cursor.close()
         }
@@ -148,6 +179,9 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
             val emailIndex = it.getColumnIndex("email")
             val fullnameIndex = it.getColumnIndex("fullname")
             val highScoreIndex = it.getColumnIndex("highScore")
+            val reward1Index = it.getColumnIndex("reward1")
+            val reward2Index = it.getColumnIndex("reward2")
+            val reward3Index = it.getColumnIndex("reward3")
 
             while (it.moveToNext()) {
                 val username = it.getString(usernameIndex)
@@ -155,7 +189,11 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                 val email = it.getString(emailIndex)
                 val fullname = it.getString(fullnameIndex)
                 val highScore = it.getInt(highScoreIndex)
-                customerList.add(Customer(username, password, email, fullname, highScore))
+                val reward1 = it.getInt(reward1Index)
+                val reward2 = it.getInt(reward2Index)
+                val reward3 = it.getInt(reward3Index)
+
+                customerList.add(Customer(username, password, email, fullname, highScore, reward1, reward2, reward3))
             }
         }
 
@@ -190,6 +228,16 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
             "username = ?",
             arrayOf(customer.username)
         )
+    }
+
+    internal fun insertDefualtRewards(){
+        val db = writableDatabase
+
+        insertReward("Reward 1", "Reward for reaching 100 points", R.drawable.funny_monster)
+        insertReward("Reward 2", "Reward for reaching 250 points", R.drawable.four_arm_monster)
+        insertReward("Reward 3", "Reward for reaching 500 points", R.drawable.monster_with_magnifying_glass)
+        db.close()
+
     }
 
 
@@ -347,4 +395,73 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
     }
 
 
+    fun insertReward(name: String, description: String, imageResourceId: Int): Boolean {
+        val db = this.writableDatabase
+        val cv = ContentValues().apply {
+            put("name", name)
+            put("description", description)
+            put("image_resource_id", imageResourceId)
+        }
+        val result = db.insert("Reward", null, cv)
+        db.close()
+        return result != -1L
+    }
+
+    fun getAllRewards(): List<Reward> {
+        val rewardList = mutableListOf<Reward>()
+        val query = "SELECT * FROM Reward"
+        val db = this.readableDatabase
+        val cursor: Cursor? = db.rawQuery(query, null)
+
+        cursor?.use {
+            val idIndex = it.getColumnIndex("id")
+            val nameIndex = it.getColumnIndex("name")
+            val descriptionIndex = it.getColumnIndex("description")
+            val imageResourceIdIndex = it.getColumnIndex("image_resource_id")
+
+            while (it.moveToNext()) {
+                val id = it.getInt(idIndex)
+                val name = it.getString(nameIndex)
+                val description = it.getString(descriptionIndex)
+                val imageResourceId = it.getInt(imageResourceIdIndex)
+                rewardList.add(Reward(id, name, description, imageResourceId))
+            }
+        }
+
+        cursor?.close()
+        db.close()
+        return rewardList
+    }
+
+    fun getEarnedRewards(username: String): List<Reward> {
+        val earnedRewards = mutableListOf<Reward>()
+        val customer = getCustomer(username)
+
+        if (customer != null) {
+            val rewards = getAllRewards()
+            if (customer.reward1 == 1) {
+                val reward1 = rewards.find { it.id == 1 }
+                reward1?.let { earnedRewards.add(it) }
+            }
+            if (customer.reward2 == 1) {
+                val reward2 = rewards.find { it.id == 2 }
+                reward2?.let { earnedRewards.add(it) }
+            }
+            if (customer.reward3 == 1) {
+                val reward3 = rewards.find { it.id == 3 }
+                reward3?.let { earnedRewards.add(it) }
+            }
+        }
+
+        return earnedRewards
+    }
+
+
+
+
+
+
 }
+
+
+
