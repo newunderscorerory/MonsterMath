@@ -1,6 +1,7 @@
 package com.example.monstermath.Utils
 
 import java.security.MessageDigest
+/// https://gist.github.com/lovubuntu/164b6b9021f5ba54cefc67f60f7a1a25
 
 object PasswordHashing {
     fun hashPassword(password: String): String {
