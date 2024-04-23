@@ -31,8 +31,8 @@ class LogIn : AppCompatActivity() {
         loginButton = findViewById(R.id.go)
         registerButton = findViewById(R.id.takeToRegister)
         db = MonsterMathDBHelper(this)
+        db.insertDefaultRewardsIfNeeded()
 
-        db.insertDefualtRewards()
 
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString().toLowerCase()
@@ -46,8 +46,6 @@ class LogIn : AppCompatActivity() {
                 if (isAuthenticated) {
                     globalUser = username
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-
-                    // Navigate to the menu activity
                     val intent = Intent(this, StartGame::class.java)
                     intent.putExtra("username", username)
                     startActivity(intent)

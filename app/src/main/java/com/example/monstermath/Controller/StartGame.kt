@@ -20,13 +20,7 @@ class StartGame : AppCompatActivity() {
 
         val profileButton: Button = findViewById(R.id.playerprofile)
         profileButton.setOnClickListener {
-            // Retrieve the username from SharedPreferences
-            val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-            val username = sharedPreferences.getString("USERNAME", "")
-
-            // Pass the username to the PlayerProfile activity
             val intent = Intent(this, PlayerProfile::class.java)
-            intent.putExtra("USERNAME", username)
             startActivity(intent)
         }
 

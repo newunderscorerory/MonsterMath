@@ -230,7 +230,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         )
     }
 
-    internal fun insertDefualtRewards(){
+    internal fun insertDefaultRewards(){
         val db = writableDatabase
 
         insertReward("Reward 1", "Reward for reaching 100 points", R.drawable.funny_monster)
@@ -238,6 +238,37 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         insertReward("Reward 3", "Reward for reaching 500 points", R.drawable.monster_with_magnifying_glass)
         db.close()
 
+    }
+
+    internal fun insertDefaultRewardsIfNeeded() {
+        val db = writableDatabase
+
+        val query = "SELECT COUNT(*) FROM Reward"
+        val cursor = db.rawQuery(query, null)
+        cursor?.use {
+            if (it.moveToFirst() && it.getInt(0) == 0) {
+
+                insertDefaultRewards()
+            }
+        }
+
+        cursor?.close()
+        db.close()
+    }
+
+    internal fun insertDefaultQuestionsIfNeeded() {
+        val db = writableDatabase
+
+        val query = "SELECT COUNT(*) FROM MathQuestions"
+        val cursor = db.rawQuery(query, null)
+        cursor?.use {
+            if (it.moveToFirst() && it.getInt(0) == 0) {
+                insertDefaultQuestions()
+            }
+        }
+
+        cursor?.close()
+        db.close()
     }
 
 

@@ -31,12 +31,12 @@ class Game : AppCompatActivity() {
         timerTextView = findViewById(R.id.Countdown)
         questionsTextView = findViewById(R.id.Question)
         dbHelper = MonsterMathDBHelper(this)
-        dbHelper.insertDefaultQuestions()
         scoreTextView = findViewById(R.id.scoreTextView)
         optionsGridView = findViewById(R.id.optionsGridView)
         progressBar = findViewById(R.id.progressBar)
         progressBar.max = 60
         username = globalUser
+        dbHelper.insertDefaultQuestionsIfNeeded()
 
 
         val millisInFuture: Long = 60000

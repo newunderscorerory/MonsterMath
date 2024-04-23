@@ -46,19 +46,23 @@ class Register : AppCompatActivity() {
             if (TextUtils.isEmpty(userText) || TextUtils.isEmpty(passText) || TextUtils.isEmpty(emailText) || TextUtils.isEmpty(fullnameText)) {
                 Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT).show()
             } else {
-                if (passText == conText) {
-                    val hashedPassword = hashPassword(passText)
-                    val saveData = db.insertData(userText, hashedPassword, emailText, fullnameText)
-
-                    if (saveData) {
-                        Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
-                    }
+                if (passText.length < 6) {
+                    Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show()
+                    if (passText == conText) {
+                        val hashedPassword = hashPassword(passText)
+                        val saveData = db.insertData(userText, hashedPassword, emailText, fullnameText)
+
+                        if (saveData) {
+                            Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
