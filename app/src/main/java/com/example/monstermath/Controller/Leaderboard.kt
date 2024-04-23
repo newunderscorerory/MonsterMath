@@ -28,7 +28,7 @@ class Leaderboard : AppCompatActivity() {
 
         val returnButton: Button = findViewById(R.id.LeaderReturn)
         returnButton.setOnClickListener {
-            val intent = Intent(this, StartGame::class.java)
+            val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
         }
 

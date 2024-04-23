@@ -3,11 +3,9 @@ package com.example.monstermath.Controller
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
@@ -55,7 +53,7 @@ class Register : AppCompatActivity() {
 
                         if (saveData) {
                             Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, Start::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
@@ -69,7 +67,7 @@ class Register : AppCompatActivity() {
 
         val returnToHomeButton: Button = findViewById(R.id.ReturnToHome)
         returnToHomeButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Start::class.java)
             startActivity(intent)
         }
     }

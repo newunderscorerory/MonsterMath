@@ -34,7 +34,7 @@ class Admin : AppCompatActivity() {
 
         val returnButton: Button = findViewById(R.id.returnToStart)
         returnButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Start::class.java)
             startActivity(intent)
         }
 

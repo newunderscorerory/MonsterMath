@@ -1,6 +1,5 @@
 package com.example.monstermath.Controller
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -46,7 +45,7 @@ class LogIn : AppCompatActivity() {
                 if (isAuthenticated) {
                     globalUser = username
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, StartGame::class.java)
+                    val intent = Intent(this, MainMenu::class.java)
                     intent.putExtra("username", username)
                     startActivity(intent)
                     finish()

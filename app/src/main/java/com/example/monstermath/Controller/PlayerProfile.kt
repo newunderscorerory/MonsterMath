@@ -1,7 +1,6 @@
 package com.example.monstermath.Controller
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -49,7 +48,7 @@ class PlayerProfile : AppCompatActivity() {
 
         val returnButton: Button = findViewById(R.id.back)
         returnButton.setOnClickListener {
-            val intent = Intent(this, StartGame::class.java)
+            val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
         }
     }

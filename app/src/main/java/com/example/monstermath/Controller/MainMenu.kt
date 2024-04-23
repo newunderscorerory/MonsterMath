@@ -1,13 +1,12 @@
 package com.example.monstermath.Controller
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.R
 
-class StartGame : AppCompatActivity() {
+class MainMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.start)
@@ -32,7 +31,7 @@ class StartGame : AppCompatActivity() {
 
         val logoutButton: Button = findViewById(R.id.LogOut)
         logoutButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Start::class.java)
             startActivity(intent)
         }
     }
