@@ -21,7 +21,6 @@ class Leaderboard : AppCompatActivity() {
         dbHelper = MonsterMathDBHelper(this)
         listView = findViewById(R.id.listViewLeaderboard)
 
-
         val highScores = dbHelper.getHighScores()
         val adapter = ArrayAdapter(this, R.layout.list_item, R.id.textView, highScores)
         listView.adapter = adapter
@@ -31,7 +30,6 @@ class Leaderboard : AppCompatActivity() {
             val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
         }
-
     }
 }
 

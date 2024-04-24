@@ -22,17 +22,15 @@ class PlayerProfile : AppCompatActivity() {
 
         dbHelper = MonsterMathDBHelper(this)
 
-        // Retrieve username from globalUser variable
         val username = globalUser
 
-        // Retrieve user information from the database using the username
         val user = dbHelper.getCustomer(username)
 
         if (user != null) {
             val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
             val emailTextView = findViewById<TextView>(R.id.emailTextView)
             val fullNameTextView = findViewById<TextView>(R.id.fullnameTextView)
-            val highScoreTextView = findViewById<TextView>(R.id.highScoreTextView) // Add high score TextView
+            val highScoreTextView = findViewById<TextView>(R.id.highScoreTextView)
 
             usernameTextView.text = user.username
             emailTextView.text = "Email: ${user.email}"
@@ -42,7 +40,6 @@ class PlayerProfile : AppCompatActivity() {
             val earnedRewards = dbHelper.getEarnedRewards(username)
             displayEarnedRewards(earnedRewards)
         } else {
-            // Handle case where user information is not found
             Toast.makeText(this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show()
         }
 
@@ -55,12 +52,11 @@ class PlayerProfile : AppCompatActivity() {
 
     private fun displayEarnedRewards(earnedRewards: List<Reward>) {
         for (reward in earnedRewards) {
-            // Find the ImageView corresponding to the reward and set its image resource
             val imageViewId = when (reward.id) {
                 1 -> R.id.reward1ImageView
                 2 -> R.id.reward2ImageView
                 3 -> R.id.reward3ImageView
-                else -> null // Handle if more rewards are added
+                else -> null
             }
             imageViewId?.let {
                 val imageView = findViewById<ImageView>(it)
