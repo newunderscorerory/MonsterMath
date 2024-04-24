@@ -15,7 +15,7 @@
         <activity android:name=".Controller.LogIn"></activity>
         <activity android:name=".Controller.Game"></activity>
         <activity
-            android:name=".Controller.MainActivity"
+            android:name=".Controller.Start"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,12 +27,14 @@
         <activity android:name=".Controller.Register"> </activity>
         <activity android:name=".Controller.Admin"> </activity>
         <activity android:name=".Controller.PlayerProfile"> </activity>
-        <activity android:name=".Controller.StartGame"> </activity>
+        <activity android:name=".Controller.MainMenu"> </activity>
         <activity android:name=".Controller.Win"> </activity>
         <activity android:name=".Controller.Lose"> </activity>
-        <activity android:name=".Controller.ChooseDifficulty"> </activity>
+        <activity android:name=".Controller.ChooseDifficulty"></activity>
         <activity android:name=".Controller.EditUser"></activity>
-        <activity android:name=".Controller.Leaderboard" />
+        <activity android:name=".Controller.Leaderboard" ></activity>
+        <activity android:name=".Controller.AdminLogIn"></activity>
+        <activity android:name=".Controller.AdminAddUser"></activity>
 
     </application>
 

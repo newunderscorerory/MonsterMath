@@ -1,7 +1,6 @@
 package com.example.monstermath.Controller
 
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.ArrayAdapter
@@ -9,8 +8,8 @@ import android.widget.GridView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.monstermath.Model.MonsterMathDBHelper
+import com.example.monstermath.Model.Reward
 import com.example.monstermath.R
 
 class Game : AppCompatActivity() {
@@ -32,12 +31,13 @@ class Game : AppCompatActivity() {
         timerTextView = findViewById(R.id.Countdown)
         questionsTextView = findViewById(R.id.Question)
         dbHelper = MonsterMathDBHelper(this)
-        dbHelper.insertDefaultQuestions()
         scoreTextView = findViewById(R.id.scoreTextView)
         optionsGridView = findViewById(R.id.optionsGridView)
         progressBar = findViewById(R.id.progressBar)
         progressBar.max = 60
         username = globalUser
+        dbHelper.insertDefaultQuestionsIfNeeded()
+
 
         val millisInFuture: Long = 60000
         val countDownInterval: Long = 1000
@@ -90,6 +90,8 @@ class Game : AppCompatActivity() {
         if (selectedDifficulty != null) {
             displayRandomQuestion(selectedDifficulty)
         }
+
+
     }
 
 
@@ -117,5 +119,10 @@ class Game : AppCompatActivity() {
 
     private fun updateHighScore() {
         dbHelper.updateHighScore(username, score)
+
     }
+
+
+
+
 }

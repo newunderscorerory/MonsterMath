@@ -1,6 +1,5 @@
 package com.example.monstermath.Controller
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -10,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
+import com.example.monstermath.Utils.PasswordHashing.hashPassword
 
 var globalUser: String = ""
 
@@ -30,21 +30,22 @@ class LogIn : AppCompatActivity() {
         loginButton = findViewById(R.id.go)
         registerButton = findViewById(R.id.takeToRegister)
         db = MonsterMathDBHelper(this)
+        db.insertDefaultRewardsIfNeeded()
+
 
         loginButton.setOnClickListener {
-            val username = usernameEditText.text.toString()
+            val username = usernameEditText.text.toString().toLowerCase()
             val password = passwordEditText.text.toString()
 
             if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                 Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show()
             } else {
-                val isAuthenticated = db.checkPass(username, password)
+                val hashedPassword = hashPassword(password)
+                val isAuthenticated = db.checkPass(username, hashedPassword)
                 if (isAuthenticated) {
                     globalUser = username
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-
-                    // Navigate to the menu activity
-                    val intent = Intent(this, StartGame::class.java)
+                    val intent = Intent(this, MainMenu::class.java)
                     intent.putExtra("username", username)
                     startActivity(intent)
                     finish()

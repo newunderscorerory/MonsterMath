@@ -32,9 +32,18 @@ class Admin : AppCompatActivity() {
         adapter = ArrayAdapter(this, R.layout.list_item, R.id.textView, fullNameList)
         listView.adapter = adapter
 
+        val returnButton: Button = findViewById(R.id.returnToStart)
+        returnButton.setOnClickListener {
+            val intent = Intent(this, Start::class.java)
+            startActivity(intent)
+        }
+
+
+
+
         val addButton: Button = findViewById(R.id.AddButton)
         addButton.setOnClickListener {
-            val intent = Intent(this, Register::class.java)
+            val intent = Intent(this, AdminAddUser::class.java)
             startActivity(intent)
         }
 

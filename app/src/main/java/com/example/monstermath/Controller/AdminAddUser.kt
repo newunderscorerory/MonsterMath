@@ -3,15 +3,17 @@ package com.example.monstermath.Controller
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import com.example.monstermath.Model.MonsterMathDBHelper
 import com.example.monstermath.R
 import com.example.monstermath.Utils.PasswordHashing.hashPassword
 
-class Register : AppCompatActivity() {
+class AdminAddUser : AppCompatActivity() {
 
     private lateinit var username: EditText
     private lateinit var password: EditText
@@ -44,30 +46,26 @@ class Register : AppCompatActivity() {
             if (TextUtils.isEmpty(userText) || TextUtils.isEmpty(passText) || TextUtils.isEmpty(emailText) || TextUtils.isEmpty(fullnameText)) {
                 Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT).show()
             } else {
-                if (passText.length < 6) {
-                    Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
-                } else {
-                    if (passText == conText) {
-                        val hashedPassword = hashPassword(passText)
-                        val saveData = db.insertData(userText, hashedPassword, emailText, fullnameText)
+                if (passText == conText) {
+                    val hashedPassword = hashPassword(passText)
+                    val saveData = db.insertData(userText, hashedPassword, emailText, fullnameText)
 
-                        if (saveData) {
-                            Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, Start::class.java)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
-                        }
+                    if (saveData) {
+                        Toast.makeText(this, "Sign Up complete", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, Admin::class.java)
+                        startActivity(intent)
                     } else {
-                        Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         val returnToHomeButton: Button = findViewById(R.id.ReturnToHome)
         returnToHomeButton.setOnClickListener {
-            val intent = Intent(this, Start::class.java)
+            val intent = Intent(this, Admin::class.java)
             startActivity(intent)
         }
     }

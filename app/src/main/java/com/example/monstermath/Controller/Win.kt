@@ -14,7 +14,7 @@ class Win : AppCompatActivity() {
 
         val returnButton: Button = findViewById(R.id.winReturn)
         returnButton.setOnClickListener {
-            val intent = Intent(this, StartGame::class.java)
+            val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
         }
 

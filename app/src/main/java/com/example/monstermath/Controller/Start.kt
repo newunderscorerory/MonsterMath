@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import com.example.monstermath.R
 
-class MainActivity : AppCompatActivity() {
+class Start : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val adminButton: Button = findViewById(R.id.teachers)
         adminButton.setOnClickListener {
-            val intent = Intent(this, Admin::class.java)
+            val intent = Intent(this, AdminLogIn::class.java)
             startActivity(intent)
         }
     }

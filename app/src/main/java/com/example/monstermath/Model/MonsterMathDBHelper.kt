@@ -5,11 +5,12 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.monstermath.R
 
 private val DatabaseName = "MonsterMath.db"
-private val ver = 1
+private val DATABASE_VERSION = 1
 
-class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, DatabaseName, null, ver) {
+class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, DatabaseName, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
@@ -18,21 +19,14 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                     "password TEXT," +
                     "email TEXT," +
                     "fullname TEXT," +
-                    "highScore INTEGER DEFAULT 0)"
+                    "highScore INTEGER DEFAULT 0," +
+                    "reward1 BOOLEAN DEFAULT 0," +
+                    "reward2 INTEGER DEFAULT 0," +
+                    "reward3 INTEGER DEFAULT 0)"
         )
-        db?.execSQL(
-            "CREATE TABLE Class (" +
-                    "class_id INTEGER PRIMARY KEY," +
-                    "class_name TEXT)"
-        )
-        db?.execSQL(
-            "CREATE TABLE UserClass (" +
-                    "username TEXT," +
-                    "class_id INTEGER," +
-                    "FOREIGN KEY (username) REFERENCES Customer(username)," +
-                    "FOREIGN KEY (class_id) REFERENCES Class(class_id)," +
-                    "PRIMARY KEY (username, class_id))"
-        )
+
+
+
         db?.execSQL(
             "CREATE TABLE MathQuestions (" +
                     "id INTEGER PRIMARY KEY," +
@@ -44,13 +38,22 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                     "option3 INTEGER," +
                     "option4 INTEGER)"
         )
+
+        db?.execSQL(
+            "CREATE TABLE Reward (" +
+                    "id INTEGER PRIMARY KEY," +
+                    "name TEXT," +
+                    "description TEXT," +
+                    "image_resource_id INTEGER)"
+        )
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS Customer")
-        db?.execSQL("DROP TABLE IF EXISTS Class")
-        db?.execSQL("DROP TABLE IF EXISTS UserClass")
         db?.execSQL("DROP TABLE IF EXISTS MathQuestions")
+        db?.execSQL("DROP TABLE IF EXISTS Reward")
         onCreate(db)
     }
 
@@ -59,7 +62,10 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         password: String,
         email: String,
         fullname: String,
-        highScore: Int = 0 // Default value for highScore
+        highScore: Int = 0,
+        reward1: Int = 0,
+        reward2: Int = 0,
+        reward3: Int = 0
     ): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -68,29 +74,14 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         cv.put("email", email)
         cv.put("fullname", fullname)
         cv.put("highScore", highScore)
+        cv.put("reward1", reward1)
+        cv.put("reward2", reward2)
+        cv.put("reward3", reward3)
         val result = db.insert("Customer", null, cv)
         db.close()
         return result != -1L
     }
 
-    fun getHighScore(username: String): Int {
-        val db = this.readableDatabase
-        var highScore = 0
-        val cursor = db.rawQuery("SELECT highScore FROM Customer WHERE username=?", arrayOf(username))
-
-        if (cursor != null && cursor.moveToFirst()) {
-            val highScoreIndex = cursor.getColumnIndex("highScore")
-            if (highScoreIndex != -1) {
-                highScore = cursor.getInt(highScoreIndex)
-            } else {
-                throw IllegalStateException("Column 'highScore' not found in cursor")
-            }
-        }
-
-        cursor?.close()
-        db.close()
-        return highScore
-    }
 
     fun getHighScores(): List<String> {
         val highScoreList = mutableListOf<String>()
@@ -118,6 +109,15 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         val db = writableDatabase
         val cv = ContentValues().apply {
             put("highScore", newHighScore)
+            if (newHighScore >= 100) {
+                put("reward1", 1)
+            }
+            if (newHighScore >= 250) {
+                put("reward2", 1)
+            }
+            if (newHighScore >= 500) {
+                put("reward3", 1)
+            }
         }
         val whereClause = "username = ? AND highScore < ?"
         val whereArgs = arrayOf(username, newHighScore.toString())
@@ -128,21 +128,22 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
 
     fun checkPass(username: String, password: String): Boolean {
         val db = this.writableDatabase
-        val query = "SELECT * FROM Customer WHERE username= '$username' AND password= '$password'"
-        val cursor = db.rawQuery(query, null)
+        val query = "SELECT * FROM Customer WHERE LOWER(username) = LOWER(?) AND password = ?"
+        val cursor = db.rawQuery(query, arrayOf(username.toLowerCase(), password))
         val result = cursor.count > 0
         cursor.close()
         db.close()
         return result
     }
 
+
     fun getCustomer(username: String): Customer {
         val db = this.readableDatabase
-        val columns = arrayOf("username", "password", "email", "fullname", "highScore")
+        val columns = arrayOf("username", "password", "email", "fullname", "highScore", "reward1", "reward2", "reward3")
         val selection = "username = ?"
         val selectionArgs = arrayOf(username)
         val cursor = db.query("Customer", columns, selection, selectionArgs, null, null, null)
-        var customer = Customer("", "", "", "", 0)
+        var customer = Customer("", "", "", "", 0, 0, 0, 0)
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -151,9 +152,12 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                 val email = cursor.getString(cursor.getColumnIndex("email"))
                 val fullname = cursor.getString(cursor.getColumnIndex("fullname"))
                 val highScore = cursor.getInt(cursor.getColumnIndex("highScore"))
+                val reward1 = cursor.getInt(cursor.getColumnIndex("reward1"))
+                val reward2 = cursor.getInt(cursor.getColumnIndex("reward2"))
+                val reward3= cursor.getInt(cursor.getColumnIndex("reward3"))
 
                 // Create a Customer object with the retrieved data
-                customer = Customer(retrievedUsername, password, email, fullname, highScore)
+                customer = Customer(retrievedUsername, password, email, fullname, highScore, reward1, reward2, reward3)
             }
             cursor.close()
         }
@@ -175,6 +179,9 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
             val emailIndex = it.getColumnIndex("email")
             val fullnameIndex = it.getColumnIndex("fullname")
             val highScoreIndex = it.getColumnIndex("highScore")
+            val reward1Index = it.getColumnIndex("reward1")
+            val reward2Index = it.getColumnIndex("reward2")
+            val reward3Index = it.getColumnIndex("reward3")
 
             while (it.moveToNext()) {
                 val username = it.getString(usernameIndex)
@@ -182,7 +189,11 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                 val email = it.getString(emailIndex)
                 val fullname = it.getString(fullnameIndex)
                 val highScore = it.getInt(highScoreIndex)
-                customerList.add(Customer(username, password, email, fullname, highScore))
+                val reward1 = it.getInt(reward1Index)
+                val reward2 = it.getInt(reward2Index)
+                val reward3 = it.getInt(reward3Index)
+
+                customerList.add(Customer(username, password, email, fullname, highScore, reward1, reward2, reward3))
             }
         }
 
@@ -191,53 +202,6 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return customerList
     }
 
-    fun addClass(className: String): Long {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put("class_name", className)
-        val result = db.insert("Class", null, cv)
-        db.close()
-        return result
-    }
-
-    fun addUserToClass(username: String, classId: Long): Long {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put("username", username)
-        cv.put("class_id", classId)
-        val result = db.insert("UserClass", null, cv)
-        db.close()
-        return result
-    }
-
-    fun getUsersInClass(classId: Long): List<Customer> {
-        val customerList = mutableListOf<Customer>()
-        val query =
-            "SELECT c.* FROM Customer c INNER JOIN UserClass uc ON c.username = uc.username WHERE uc.class_id = ?"
-        val db = this.readableDatabase
-        val cursor: Cursor? = db.rawQuery(query, arrayOf(classId.toString()))
-
-        cursor?.use {
-            val usernameIndex = it.getColumnIndex("username")
-            val passwordIndex = it.getColumnIndex("password")
-            val emailIndex = it.getColumnIndex("email")
-            val fullnameIndex = it.getColumnIndex("fullname")
-            val highScoreIndex = it.getColumnIndex("highScore")
-
-            while (it.moveToNext()) {
-                val username = it.getString(usernameIndex)
-                val password = it.getString(passwordIndex)
-                val email = it.getString(emailIndex)
-                val fullname = it.getString(fullnameIndex)
-                val highScore = it.getInt(highScoreIndex)
-                customerList.add(Customer(username, password, email, fullname, highScore))
-            }
-        }
-
-        cursor?.close()
-        db.close()
-        return customerList
-    }
 
     fun removeUser(username: String): Boolean {
         val db = this.writableDatabase
@@ -266,59 +230,131 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         )
     }
 
+    internal fun insertDefaultRewards(){
+        val db = writableDatabase
+
+        insertReward("Reward 1", "Reward for reaching 100 points", R.drawable.funny_monster)
+        insertReward("Reward 2", "Reward for reaching 250 points", R.drawable.four_arm_monster)
+        insertReward("Reward 3", "Reward for reaching 500 points", R.drawable.monster_with_magnifying_glass)
+        db.close()
+
+    }
+
+    internal fun insertDefaultRewardsIfNeeded() {
+        val db = writableDatabase
+
+        val query = "SELECT COUNT(*) FROM Reward"
+        val cursor = db.rawQuery(query, null)
+        cursor?.use {
+            if (it.moveToFirst() && it.getInt(0) == 0) {
+
+                insertDefaultRewards()
+            }
+        }
+
+        cursor?.close()
+        db.close()
+    }
+
+    internal fun insertDefaultQuestionsIfNeeded() {
+        val db = writableDatabase
+
+        val query = "SELECT COUNT(*) FROM MathQuestions"
+        val cursor = db.rawQuery(query, null)
+        cursor?.use {
+            if (it.moveToFirst() && it.getInt(0) == 0) {
+                insertDefaultQuestions()
+            }
+        }
+
+        cursor?.close()
+        db.close()
+    }
+
 
 
     internal fun insertDefaultQuestions() {
         val db = writableDatabase
 
-        addQuestionWithOptions("Addition and Subtraction", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
-        addQuestionWithOptions("Addition and Subtraction", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
-        addQuestionWithOptions("Addition and Subtraction", "What is 10 - 4?", 6, listOf(8, 5, 7, 6))
-        addQuestionWithOptions("Addition and Subtraction", "What is 10 + 2?", 12, listOf(12, 9, 7, 4))
-        addQuestionWithOptions("Addition and Subtraction", "What is 7 + 6?", 13, listOf(15, 13, 10, 12))
-        addQuestionWithOptions("Addition and Subtraction", "What is 15 - 9?", 6, listOf(8, 6, 4, 10))
-        addQuestionWithOptions("Addition and Subtraction", "What is 20 + 3?", 23, listOf(23, 19, 25, 21))
-        addQuestionWithOptions("Addition and Subtraction", "What is 18 - 7?", 11, listOf(11, 10, 13, 8))
-        addQuestionWithOptions("Addition and Subtraction", "What is 25 + 9?", 34, listOf(30, 34, 32, 28))
-        addQuestionWithOptions("Addition and Subtraction", "What is 17 + 9?", 26, listOf(23, 28, 26, 25))
-        addQuestionWithOptions("Addition and Subtraction", "What is 42 - 18?", 24, listOf(24, 20, 26, 22))
-        addQuestionWithOptions("Addition and Subtraction", "What is 55 + 27?", 82, listOf(82, 80, 85, 75))
-        addQuestionWithOptions("Addition and Subtraction", "What is 63 - 29?", 34, listOf(32, 36, 34, 30))
-        addQuestionWithOptions("Addition and Subtraction", "What is 98 + 16?", 114, listOf(110, 120, 105, 114))
-        addQuestionWithOptions("Addition and Subtraction", "What is 116 - 42?", 74, listOf(74, 78, 72, 68))
-        addQuestionWithOptions("Addition and Subtraction", "What is 135 + 28?", 163, listOf(155, 163, 160, 168))
-        addQuestionWithOptions("Addition and Subtraction", "What is 142 - 77?", 65, listOf(68, 65, 62, 58))
-        addQuestionWithOptions("Addition and Subtraction", "What is 178 + 35?", 213, listOf(213, 205, 220, 200))
-        addQuestionWithOptions("Addition and Subtraction", "What is 197 - 92?", 105, listOf(108, 105, 102, 98))
 
-        addQuestionWithOptions("Multiplication and Division", "What is 4 * 5?", 20, listOf(20, 18, 22, 15))
-        addQuestionWithOptions("Multiplication and Division", "What is 12 / 3?", 4, listOf(4, 5, 3, 2))
-        addQuestionWithOptions("Multiplication and Division", "What is 2 * 9?", 18, listOf(15, 18, 12, 21))
-        addQuestionWithOptions("Multiplication and Division", "What is 3 * 7?", 21, listOf(21, 24, 18, 15))
-        addQuestionWithOptions("Multiplication and Division", "What is 4 * 8?", 32, listOf(32, 28, 36, 24))
-        addQuestionWithOptions("Multiplication and Division", "What is 6 * 6?", 36, listOf(39, 36, 33, 30))
-        addQuestionWithOptions("Multiplication and Division", "What is 7 * 5?", 35, listOf(38, 35, 32, 28))
-        addQuestionWithOptions("Multiplication and Division", "What is 8 * 4?", 32, listOf(24, 36, 32, 28))
-        addQuestionWithOptions("Multiplication and Division", "What is 9 * 3?", 27, listOf(24, 27, 30, 21))
-        addQuestionWithOptions("Multiplication and Division", "What is 10 * 2?", 20, listOf(17, 20, 14, 23))
-        addQuestionWithOptions("Multiplication and Division", "What is 11 * 3?", 33, listOf(30, 36, 33, 27))
-        addQuestionWithOptions("Multiplication and Division", "What is 12 * 12?", 144, listOf(156, 144, 120, 132))
+        // For addition questions
+        addQuestionWithOptions("Addition", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
+        addQuestionWithOptions("Addition", "What is 10 + 2?", 12, listOf(12, 9, 7, 4))
+        addQuestionWithOptions("Addition", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
+        addQuestionWithOptions("Addition", "What is 10 + 2?", 12, listOf(12, 9, 7, 4))
+        addQuestionWithOptions("Addition", "What is 8 + 5?", 13, listOf(12, 13, 14, 15))
+        addQuestionWithOptions("Addition", "What is 17 + 9?", 26, listOf(25, 26, 27, 28))
+        addQuestionWithOptions("Addition", "What is 32 + 18?", 50, listOf(48, 49, 50, 51))
+        addQuestionWithOptions("Addition", "What is 45 + 27?", 72, listOf(70, 71, 72, 73))
+        addQuestionWithOptions("Addition", "What is 56 + 34?", 90, listOf(88, 89, 90, 91))
+        addQuestionWithOptions("Addition", "What is 73 + 29?", 102, listOf(100, 101, 102, 103))
+        addQuestionWithOptions("Addition", "What is 88 + 45?", 93, listOf(93, 94, 95, 96))
+        addQuestionWithOptions("Addition", "What is 45 + 50?", 95, listOf(95, 96, 97, 98))
+        addQuestionWithOptions("Addition", "What is 32 + 70?", 97, listOf(96, 97, 98, 99))
+        addQuestionWithOptions("Addition", "What is 55 + 45?", 100, listOf(99, 100, 101, 102))
+        // Add more addition questions...
 
-        addQuestionWithOptions("All", "What is 5 + 3?", 8, listOf(9, 8, 7, 6))
-        addQuestionWithOptions("All", "What is 10 - 4?", 6, listOf(5, 7, 8, 6))
-        addQuestionWithOptions("All", "What is 10 + 2?", 12, listOf(12, 4, 9, 7))
-        addQuestionWithOptions("All", "What is 7 + 6?", 13, listOf(10, 12, 15, 13))
-        addQuestionWithOptions("All", "What is 15 - 9?", 6, listOf(6, 4, 10, 8))
-        addQuestionWithOptions("All", "What is 20 + 3?", 23, listOf(25, 21, 19, 23))
-        addQuestionWithOptions("All", "What is 18 - 7?", 11, listOf(10, 11, 8, 13))
-        addQuestionWithOptions("All", "What is 25 + 9?", 34, listOf(28, 32, 34, 30))
-        addQuestionWithOptions("All", "What is 30 * 4?", 120, listOf(120, 100, 110, 130))
-        addQuestionWithOptions("All", "What is 36 / 6?", 6, listOf(4, 7, 6, 5))
-        addQuestionWithOptions("All", "What is 9 + 4?", 13, listOf(12, 15, 13, 10))
-        addQuestionWithOptions("All", "What is 14 - 7?", 7, listOf(7, 9, 5, 11))
-        addQuestionWithOptions("All", "What is 20 + 3?", 23, listOf(21, 25, 19, 23))
-        addQuestionWithOptions("All", "What is 18 - 7?", 11, listOf(10, 8, 13, 11))
-        addQuestionWithOptions("All", "What is 25 + 9?", 34, listOf(30, 34, 28, 32))
+        // For subtraction questions
+        addQuestionWithOptions("Subtraction", "What is 10 - 4?", 6, listOf(8, 5, 7, 6))
+        addQuestionWithOptions("Subtraction", "What is 15 - 9?", 6, listOf(8, 6, 4, 10))
+        addQuestionWithOptions("Subtraction", "What is 15 - 8?", 7, listOf(6, 7, 8, 9))
+        addQuestionWithOptions("Subtraction", "What is 27 - 14?", 13, listOf(12, 13, 14, 15))
+        addQuestionWithOptions("Subtraction", "What is 39 - 21?", 18, listOf(16, 17, 18, 19))
+        addQuestionWithOptions("Subtraction", "What is 52 - 37?", 15, listOf(14, 15, 16, 17))
+        addQuestionWithOptions("Subtraction", "What is 68 - 49?", 19, listOf(18, 19, 20, 21))
+        addQuestionWithOptions("Subtraction", "What is 85 - 62?", 23, listOf(21, 22, 23, 24))
+        addQuestionWithOptions("Subtraction", "What is 97 - 78?", 19, listOf(18, 19, 20, 21))
+        addQuestionWithOptions("Subtraction", "What is 109 - 92?", 17, listOf(15, 16, 17, 18))
+        // Add more subtraction questions...
+
+        // For multiplication questions
+        addQuestionWithOptions("Multiplication", "What is 4 * 5?", 20, listOf(20, 18, 22, 15))
+        addQuestionWithOptions("Multiplication", "What is 2 * 9?", 18, listOf(15, 18, 12, 21))
+        addQuestionWithOptions("Multiplication", "What is 3 * 4?", 12, listOf(10, 12, 14, 16))
+        addQuestionWithOptions("Multiplication", "What is 5 * 6?", 30, listOf(25, 30, 35, 40))
+        addQuestionWithOptions("Multiplication", "What is 2 * 8?", 16, listOf(12, 14, 16, 18))
+        addQuestionWithOptions("Multiplication", "What is 7 * 3?", 21, listOf(18, 21, 24, 27))
+        addQuestionWithOptions("Multiplication", "What is 4 * 7?", 28, listOf(24, 28, 32, 36))
+        addQuestionWithOptions("Multiplication", "What is 6 * 5?", 30, listOf(25, 30, 35, 40))
+        addQuestionWithOptions("Multiplication", "What is 9 * 2?", 18, listOf(15, 18, 21, 24))
+        addQuestionWithOptions("Multiplication", "What is 8 * 4?", 32, listOf(28, 32, 36, 40))
+        addQuestionWithOptions("Multiplication", "What is 3 * 9?", 27, listOf(21, 24, 27, 30))
+        addQuestionWithOptions("Multiplication", "What is 5 * 4?", 20, listOf(15, 20, 25, 30))
+        addQuestionWithOptions("Multiplication", "What is 6 * 3?", 18, listOf(12, 15, 18, 21))
+        addQuestionWithOptions("Multiplication", "What is 7 * 5?", 35, listOf(30, 35, 40, 45))
+        addQuestionWithOptions("Multiplication", "What is 8 * 2?", 16, listOf(12, 14, 16, 18))
+        addQuestionWithOptions("Multiplication", "What is 4 * 9?", 36, listOf(30, 36, 42, 48))
+        addQuestionWithOptions("Multiplication", "What is 9 * 3?", 27, listOf(24, 27, 30, 33))
+        addQuestionWithOptions("Multiplication", "What is 6 * 4?", 24, listOf(20, 24, 28, 32))
+        addQuestionWithOptions("Multiplication", "What is 7 * 2?", 14, listOf(10, 12, 14, 16))
+        addQuestionWithOptions("Multiplication", "What is 5 * 8?", 40, listOf(35, 40, 45, 50))
+        addQuestionWithOptions("Multiplication", "What is 8 * 5?", 40, listOf(35, 40, 45, 50))
+
+
+
+        addQuestionWithOptions("Division", "What is 12 / 3?", 4, listOf(4, 5, 3, 2))
+        addQuestionWithOptions("Division", "What is 36 / 6?", 6, listOf(4, 7, 6, 5))
+        addQuestionWithOptions("Division", "What is 8 / 2?", 4, listOf(4, 3, 2, 5))
+        addQuestionWithOptions("Division", "What is 10 / 5?", 2, listOf(2, 3, 4, 6))
+        addQuestionWithOptions("Division", "What is 18 / 3?", 6, listOf(6, 5, 4, 3))
+        addQuestionWithOptions("Division", "What is 20 / 4?", 5, listOf(5, 6, 4, 3))
+        addQuestionWithOptions("Division", "What is 15 / 3?", 5, listOf(4, 5, 6, 7))
+        addQuestionWithOptions("Division", "What is 9 / 3?", 3, listOf(2, 3, 4, 5))
+        addQuestionWithOptions("Division", "What is 16 / 4?", 4, listOf(4, 3, 5, 6))
+        addQuestionWithOptions("Division", "What is 24 / 6?", 4, listOf(4, 5, 6, 7))
+        addQuestionWithOptions("Division", "What is 14 / 2?", 7, listOf(7, 6, 5, 8))
+        addQuestionWithOptions("Division", "What is 27 / 3?", 9, listOf(8, 9, 10, 7))
+        addQuestionWithOptions("Division", "What is 30 / 5?", 6, listOf(6, 7, 5, 4))
+        addQuestionWithOptions("Division", "What is 21 / 3?", 7, listOf(6, 7, 8, 9))
+        addQuestionWithOptions("Division", "What is 25 / 5?", 5, listOf(4, 5, 6, 7))
+        addQuestionWithOptions("Division", "What is 32 / 4?", 8, listOf(7, 8, 9, 10))
+        addQuestionWithOptions("Division", "What is 28 / 4?", 7, listOf(6, 7, 8, 9))
+        addQuestionWithOptions("Division", "What is 35 / 5?", 7, listOf(6, 7, 8, 9))
+        addQuestionWithOptions("Division", "What is 42 / 6?", 7, listOf(6, 7, 8, 9))
+        addQuestionWithOptions("Division", "What is 49 / 7?", 7, listOf(6, 7, 8, 9))
+        addQuestionWithOptions("Division", "What is 50 / 10?", 5, listOf(4, 5, 6, 7))
+
+
 
         db.close()
 
@@ -327,9 +363,10 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
     fun getQuestionsByDifficulty(difficulty: String): List<MathQuestions> {
         val questionList = mutableListOf<MathQuestions>()
         val query = when (difficulty) {
-            "Easy" -> "SELECT * FROM MathQuestions WHERE category = 'Addition and Subtraction'"
-            "Medium" -> "SELECT * FROM MathQuestions WHERE category = 'Multiplication and Division'"
-            "Hard" -> "SELECT * FROM MathQuestions WHERE category = 'All'"
+            "Addition" -> "SELECT * FROM MathQuestions WHERE category = 'Addition'"
+            "Subtraction" -> "SELECT * FROM MathQuestions WHERE category = 'Subtraction'"
+            "Multiplication" -> "SELECT * FROM MathQuestions WHERE category = 'Multiplication'"
+            "Division" -> "SELECT * FROM MathQuestions WHERE category = 'Division'"
             else -> "SELECT * FROM MathQuestions"
         }
         val db = this.readableDatabase
@@ -365,6 +402,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return questionList
     }
 
+
     fun addQuestionWithOptions(
         category: String,
         question: String,
@@ -372,53 +410,89 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         options: List<Int>
     ): Boolean {
         val db = this.writableDatabase
+        val shuffledOptions = options.shuffled() // Shuffle the options list
         val cv = ContentValues().apply {
             put("category", category)
             put("question", question)
             put("correctAnswer", answer)
-            put("option1", options[0])
-            put("option2", options[1])
-            put("option3", options[2])
-            put("option4", options[3])
+            put("option1", shuffledOptions[0]) // Use shuffled options
+            put("option2", shuffledOptions[1])
+            put("option3", shuffledOptions[2])
+            put("option4", shuffledOptions[3])
         }
         val result = db.insert("MathQuestions", null, cv)
         db.close()
         return result != -1L
     }
 
-    fun getAllQuestions(): List<MathQuestions> {
-        val questionList = mutableListOf<MathQuestions>()
-        val query = "SELECT * FROM MathQuestions"
+
+    fun insertReward(name: String, description: String, imageResourceId: Int): Boolean {
+        val db = this.writableDatabase
+        val cv = ContentValues().apply {
+            put("name", name)
+            put("description", description)
+            put("image_resource_id", imageResourceId)
+        }
+        val result = db.insert("Reward", null, cv)
+        db.close()
+        return result != -1L
+    }
+
+    fun getAllRewards(): List<Reward> {
+        val rewardList = mutableListOf<Reward>()
+        val query = "SELECT * FROM Reward"
         val db = this.readableDatabase
         val cursor: Cursor? = db.rawQuery(query, null)
 
         cursor?.use {
             val idIndex = it.getColumnIndex("id")
-            val categoryIndex = it.getColumnIndex("category")
-            val questionIndex = it.getColumnIndex("question")
-            val correctAnswerIndex = it.getColumnIndex("correctAnswer")
-            val option1Index = it.getColumnIndex("option1")
-            val option2Index = it.getColumnIndex("option2")
-            val option3Index = it.getColumnIndex("option3")
-            val option4Index = it.getColumnIndex("option4")
+            val nameIndex = it.getColumnIndex("name")
+            val descriptionIndex = it.getColumnIndex("description")
+            val imageResourceIdIndex = it.getColumnIndex("image_resource_id")
 
             while (it.moveToNext()) {
                 val id = it.getInt(idIndex)
-                val category = it.getString(categoryIndex)
-                val question = it.getString(questionIndex)
-                val correctAnswer = it.getInt(correctAnswerIndex)
-                val options = listOf(
-                    it.getInt(option1Index),
-                    it.getInt(option2Index),
-                    it.getInt(option3Index),
-                    it.getInt(option4Index)
-                )
-                questionList.add(MathQuestions(id, category, question, correctAnswer, options))
+                val name = it.getString(nameIndex)
+                val description = it.getString(descriptionIndex)
+                val imageResourceId = it.getInt(imageResourceIdIndex)
+                rewardList.add(Reward(id, name, description, imageResourceId))
             }
         }
 
         cursor?.close()
         db.close()
-        return questionList
+        return rewardList
     }
+
+    fun getEarnedRewards(username: String): List<Reward> {
+        val earnedRewards = mutableListOf<Reward>()
+        val customer = getCustomer(username)
+
+        if (customer != null) {
+            val rewards = getAllRewards()
+            if (customer.reward1 == 1) {
+                val reward1 = rewards.find { it.id == 1 }
+                reward1?.let { earnedRewards.add(it) }
+            }
+            if (customer.reward2 == 1) {
+                val reward2 = rewards.find { it.id == 2 }
+                reward2?.let { earnedRewards.add(it) }
+            }
+            if (customer.reward3 == 1) {
+                val reward3 = rewards.find { it.id == 3 }
+                reward3?.let { earnedRewards.add(it) }
+            }
+        }
+
+        return earnedRewards
+    }
+
+
+
+
+
+
 }
+
+
+

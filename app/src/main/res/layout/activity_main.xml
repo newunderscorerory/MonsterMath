@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back"
-    tools:context=".Controller.MainActivity">
+    tools:context=".Controller.Start">
 
     <Button
         android:id="@+id/login"
