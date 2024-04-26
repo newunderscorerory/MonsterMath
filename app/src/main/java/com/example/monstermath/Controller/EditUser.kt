@@ -18,32 +18,28 @@ class EditUser : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edituser)
-
         dbHelper = MonsterMathDBHelper(this)
-
         val username = intent.getStringExtra("username")
-
-        // Check if username is not null before using it
         if (username != null) {
-            // Retrieve user information from the database based on the username
             val user = dbHelper.getCustomer(username)
-
-            // Populate EditText fields with user information
             findViewById<EditText>(R.id.UsernameEdit).setText(user.username)
             findViewById<EditText>(R.id.EmailEdit).setText(user.email)
             findViewById<EditText>(R.id.NameEdit).setText(user.fullname)
-
             findViewById<Button>(R.id.editButton).setOnClickListener {
-                // Get the new password from the EditText field
                 val newPassword = findViewById<EditText>(R.id.PasswordEdit).text.toString()
-
-                // Hash the new password
+                val confirmPassword = findViewById<EditText>(R.id.ConfirmPasswordEdit).text.toString()
+                if (newPassword.isEmpty() || newPassword.length <= 6) {
+                    Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (newPassword != confirmPassword) {
+                    Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 val hashedPassword = PasswordHashing.hashPassword(newPassword)
-
-                // Update user information with hashed password in the database
                 val updatedUser = Customer(
                     username,
-                    hashedPassword, // Use the hashed password
+                    hashedPassword,
                     findViewById<EditText>(R.id.EmailEdit).text.toString(),
                     findViewById<EditText>(R.id.NameEdit).text.toString(),
                     user.highScore,
@@ -53,10 +49,10 @@ class EditUser : AppCompatActivity() {
                 )
                 dbHelper.updateCustomer(updatedUser)
                 Toast.makeText(this, "User information updated", Toast.LENGTH_SHORT).show()
-                finish() // Finish the activity after updating
+                finish()
             }
         } else {
-            // Handle the case where username is null (optional)
+
             Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
             finish()
         }
