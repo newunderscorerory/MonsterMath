@@ -38,9 +38,6 @@ class Admin : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
-
         val addButton: Button = findViewById(R.id.AddButton)
         addButton.setOnClickListener {
             val intent = Intent(this, AdminAddUser::class.java)
@@ -51,7 +48,7 @@ class Admin : AppCompatActivity() {
         deleteButton.setOnClickListener {
             if (!isDeleteMode) {
                 isDeleteMode = true
-                isEditMode = false // Exit edit mode if it's active
+                isEditMode = false
                 Toast.makeText(this, "Select an item to delete", Toast.LENGTH_SHORT).show()
             } else {
                 isDeleteMode = false
@@ -63,7 +60,7 @@ class Admin : AppCompatActivity() {
         editButton.setOnClickListener {
             if (!isEditMode) {
                 isEditMode = true
-                isDeleteMode = false // Exit delete mode if it's active
+                isDeleteMode = false
                 Toast.makeText(this, "Select an item to edit", Toast.LENGTH_SHORT).show()
             } else {
                 isEditMode = false
@@ -71,7 +68,7 @@ class Admin : AppCompatActivity() {
             }
         }
 
-        // Set click listener for list items to handle deletion or editing
+
         listView.setOnItemClickListener { _, _, position, _ ->
             if (isDeleteMode) {
                 val selectedCustomer = customers[position]
@@ -84,10 +81,9 @@ class Admin : AppCompatActivity() {
                     Toast.makeText(this, "Failed to delete user", Toast.LENGTH_SHORT).show()
                 }
             } else if (isEditMode) {
-                // Launch an edit activity with the selected user's information
                 val intent = Intent(this, EditUser::class.java)
                 intent.putExtra("username", customers[position].username)
-                // Pass other relevant information to the edit activity if needed
+
                 startActivity(intent)
             }
         }

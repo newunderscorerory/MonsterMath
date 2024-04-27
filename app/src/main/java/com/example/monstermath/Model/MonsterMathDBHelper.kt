@@ -156,7 +156,6 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
                 val reward2 = cursor.getInt(cursor.getColumnIndex("reward2"))
                 val reward3= cursor.getInt(cursor.getColumnIndex("reward3"))
 
-                // Create a Customer object with the retrieved data
                 customer = Customer(retrievedUsername, password, email, fullname, highScore, reward1, reward2, reward3)
             }
             cursor.close()

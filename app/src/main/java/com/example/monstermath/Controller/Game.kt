@@ -67,7 +67,6 @@ class Game : AppCompatActivity() {
 
         optionsGridView.setOnItemClickListener { _, _, position, _ ->
             val selectedOption = optionsGridView.adapter.getItem(position) as String
-
             val currentQuestion = questionsTextView.text.toString()
             val currentDifficulty = intent.getStringExtra("DIFFICULTY")
 
@@ -86,7 +85,6 @@ class Game : AppCompatActivity() {
 
         val intent = intent
         val selectedDifficulty = intent.getStringExtra("DIFFICULTY")
-
         if (selectedDifficulty != null) {
             displayRandomQuestion(selectedDifficulty)
         }

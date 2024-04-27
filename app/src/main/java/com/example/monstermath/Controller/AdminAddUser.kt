@@ -35,7 +35,6 @@ class AdminAddUser : AppCompatActivity() {
         db = MonsterMathDBHelper(this)
         register = findViewById(R.id.registerButton)
 
-
         register.setOnClickListener {
             val userText = username.text.toString().toLowerCase()
             val passText = password.text.toString()
