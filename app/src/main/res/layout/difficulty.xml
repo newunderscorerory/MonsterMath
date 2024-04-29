@@ -12,6 +12,7 @@
         android:layout_height="343dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="156dp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ExtraText">
@@ -21,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:text="Addition"
+            android:textColor="@color/black"
             android:textSize="34sp" />
 
         <RadioButton
@@ -28,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:text="Subtraction"
+            android:textColor="@color/black"
             android:textSize="34sp" />
 
         <RadioButton
@@ -35,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:text="Multiplication"
+            android:textColor="@color/black"
             android:textSize="34sp" />
 
         <RadioButton
@@ -42,10 +46,10 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:text="Division"
+            android:textColor="@color/black"
             android:textSize="34sp" />
         />
 
-        <!-- Other radio buttons for different difficulty levels -->
 
     </RadioGroup>
 
@@ -56,6 +60,7 @@
         android:layout_marginStart="132dp"
         android:layout_marginTop="500dp"
         android:text="Start Game"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,6 +72,7 @@
         android:layout_marginTop="64dp"
         android:text="Choose a Difficulty"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
