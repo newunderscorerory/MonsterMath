@@ -298,7 +298,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         addQuestionWithOptions("Addition", "What is 73 + 29?", 102, listOf(100, 101, 102, 103))
         addQuestionWithOptions("Addition", "What is 88 + 45?", 93, listOf(93, 94, 95, 96))
         addQuestionWithOptions("Addition", "What is 45 + 50?", 95, listOf(95, 96, 97, 98))
-        addQuestionWithOptions("Addition", "What is 32 + 70?", 97, listOf(96, 97, 98, 99))
+        addQuestionWithOptions("Addition", "What is 32 + 70?", 102, listOf(102, 103, 105, 99))
         addQuestionWithOptions("Addition", "What is 55 + 45?", 100, listOf(99, 100, 101, 102))
 
         addQuestionWithOptions("Subtraction", "What is 10 - 4?", 6, listOf(8, 5, 7, 6))
