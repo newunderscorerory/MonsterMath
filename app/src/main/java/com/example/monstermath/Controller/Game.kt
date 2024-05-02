@@ -14,35 +14,41 @@ import com.example.monstermath.R
 
 class Game : AppCompatActivity() {
 
+    // UI elements
     private lateinit var timerTextView: TextView
     private lateinit var questionsTextView: TextView
-    private lateinit var dbHelper: MonsterMathDBHelper
     private lateinit var optionsGridView: GridView
     private lateinit var scoreTextView: TextView
-    private var score: Int = 0
-    private lateinit var username: String
     private lateinit var progressBar: ProgressBar
 
+    // Game data
+    private var score: Int = 0
+    private lateinit var username: String
+    private lateinit var dbHelper: MonsterMathDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game)
 
+        // Initialize UI elements
         timerTextView = findViewById(R.id.Countdown)
         questionsTextView = findViewById(R.id.Question)
-        dbHelper = MonsterMathDBHelper(this)
         scoreTextView = findViewById(R.id.scoreTextView)
         optionsGridView = findViewById(R.id.optionsGridView)
         progressBar = findViewById(R.id.progressBar)
-        progressBar.max = 60
+        progressBar.max = 60 // Set maximum value for the progress bar
+
+        // Initialize database helper and get username from global variable
+        dbHelper = MonsterMathDBHelper(this)
         username = globalUser
+
+        // Insert default questions into the database if needed
         dbHelper.insertDefaultQuestionsIfNeeded()
 
-
-        val millisInFuture: Long = 60000
-        val countDownInterval: Long = 1000
-        val countDownTimer = object : CountDownTimer(millisInFuture, countDownInterval) {
+        // Create a countdown timer for the game
+        val countDownTimer = object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                // Update timer text and progress bar
                 val secondsRemaining = millisUntilFinished / 1000
                 val minutes = secondsRemaining / 60
                 val seconds = secondsRemaining % 60
@@ -51,48 +57,52 @@ class Game : AppCompatActivity() {
             }
 
             override fun onFinish() {
+                // Actions to perform when the game timer finishes
                 timerTextView.text = "00:00"
-                updateHighScore()
-                if (score >= 100) {
-                    val intent = Intent(this@Game, Win::class.java)
-                    startActivity(intent)
+                updateHighScore() // Update high score in the database
+
+                // Start appropriate activity based on the final score
+                val intent = if (score >= 100) {
+                    Intent(this@Game, Win::class.java)
                 } else {
-                    val intent = Intent(this@Game, Lose::class.java)
-                    startActivity(intent)
+                    Intent(this@Game, Lose::class.java)
                 }
-                finish()
+                startActivity(intent)
+                finish() // Finish the current activity
             }
         }
-        countDownTimer.start()
+        countDownTimer.start() // Start the countdown timer
 
+        // Set click listener for options grid view
         optionsGridView.setOnItemClickListener { _, _, position, _ ->
             val selectedOption = optionsGridView.adapter.getItem(position) as String
             val currentQuestion = questionsTextView.text.toString()
             val currentDifficulty = intent.getStringExtra("DIFFICULTY")
 
-            if (currentDifficulty != null) {
-                val questionList = dbHelper.getQuestionsByDifficulty(currentDifficulty)
-                val correctAnswer = questionList.find { it.question == currentQuestion }?.correctAnswer.toString()
+            // Get questions based on the selected difficulty
+            val questionList = dbHelper.getQuestionsByDifficulty(currentDifficulty!!)
 
-                if (selectedOption == correctAnswer) {
-                    score += 10
-                    updateScoreDisplay(score)
-                }
+            // Find correct answer for the current question
+            val correctAnswer = questionList.find { it.question == currentQuestion }?.correctAnswer.toString()
 
-                displayRandomQuestion(currentDifficulty)
+            // Update score if the selected option is correct
+            if (selectedOption == correctAnswer) {
+                score += 10
+                updateScoreDisplay(score) // Update score display
             }
+
+            // Display a new random question
+            displayRandomQuestion(currentDifficulty)
         }
 
-        val intent = intent
+        // Get selected difficulty from intent and display a random question
         val selectedDifficulty = intent.getStringExtra("DIFFICULTY")
         if (selectedDifficulty != null) {
             displayRandomQuestion(selectedDifficulty)
         }
-
-
     }
 
-
+    // Display a random question based on the selected difficulty
     private fun displayRandomQuestion(difficulty: String) {
         val questionList = dbHelper.getQuestionsByDifficulty(difficulty)
         if (questionList.isNotEmpty()) {
@@ -100,8 +110,10 @@ class Game : AppCompatActivity() {
             val randomQuestion = questionList[randomIndex]
             questionsTextView.text = randomQuestion.question
 
+            // Convert question options to string list
             val optionsAsString = randomQuestion.options.map { it.toString() }
 
+            // Set options adapter for grid view
             val optionsAdapter =
                 ArrayAdapter<String>(this, R.layout.answers_layout, optionsAsString)
             optionsGridView.adapter = optionsAdapter
@@ -110,17 +122,14 @@ class Game : AppCompatActivity() {
         }
     }
 
-
+    // Update score display on the UI
     private fun updateScoreDisplay(score: Int) {
         scoreTextView.text = "Score: $score"
     }
 
+    // Update the high score in the database
     private fun updateHighScore() {
         dbHelper.updateHighScore(username, score)
-
     }
-
-
-
-
 }
+

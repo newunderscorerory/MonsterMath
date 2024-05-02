@@ -7,12 +7,16 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.monstermath.R
 
+// Database name and version
 private val DatabaseName = "MonsterMath.db"
 private val DATABASE_VERSION = 1
 
+// Database helper class
 class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, DatabaseName, null, DATABASE_VERSION) {
 
+    // Called when the database is created
     override fun onCreate(db: SQLiteDatabase?) {
+        // Create tables for customers, math questions, and rewards
         db?.execSQL(
             "CREATE TABLE Customer (" +
                     "username TEXT PRIMARY KEY," +
@@ -50,6 +54,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
 
     }
 
+    // Called when the database needs to be upgraded
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS Customer")
         db?.execSQL("DROP TABLE IF EXISTS MathQuestions")
@@ -57,6 +62,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         onCreate(db)
     }
 
+    // Inserts customer data into the database
     fun insertData(
         username: String,
         password: String,
@@ -82,7 +88,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return result != -1L
     }
 
-
+    // Retrieves high scores of all customers
     fun getHighScores(): List<String> {
         val highScoreList = mutableListOf<String>()
         val query = "SELECT username, highScore FROM Customer ORDER BY highScore DESC"
@@ -104,7 +110,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
     }
 
 
-
+    // Updates the high score of a user and sets flags for earned rewards based on the new high score
     fun updateHighScore(username: String, newHighScore: Int) {
         val db = writableDatabase
         val cv = ContentValues().apply {
@@ -125,7 +131,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         db.close()
     }
 
-
+    // Checks if the provided username and password match a record in the database, enabling user authentication
     fun checkPass(username: String, password: String): Boolean {
         val db = this.writableDatabase
         val query = "SELECT * FROM Customer WHERE LOWER(username) = LOWER(?) AND password = ?"
@@ -136,7 +142,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return result
     }
 
-
+    // Retrieves customer information based on the username
     fun getCustomer(username: String): Customer {
         val db = this.readableDatabase
         val columns = arrayOf("username", "password", "email", "fullname", "highScore", "reward1", "reward2", "reward3")
@@ -165,7 +171,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
     }
 
 
-
+    // Retrieves information about all customers
     fun getAllCustomers(): List<Customer> {
         val customerList = mutableListOf<Customer>()
         val query = "SELECT * FROM Customer"
@@ -201,7 +207,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return customerList
     }
 
-
+    // Removes a user from the database
     fun removeUser(username: String): Boolean {
         val db = this.writableDatabase
         val whereClause = "username = ?"
@@ -211,6 +217,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return result > 0
     }
 
+    // Updates customer information in the database
     fun updateCustomer(customer: Customer): Int {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -229,6 +236,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         )
     }
 
+    // Inserts default rewards into the database if no rewards exist
     internal fun insertDefaultRewards(){
         val db = writableDatabase
 
@@ -239,6 +247,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
 
     }
 
+    // Inserts default rewards into the database if no rewards exist
     internal fun insertDefaultRewardsIfNeeded() {
         val db = writableDatabase
 
@@ -255,6 +264,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         db.close()
     }
 
+    // Inserts default math questions into the database if no questions exist
     internal fun insertDefaultQuestionsIfNeeded() {
         val db = writableDatabase
 
@@ -271,12 +281,11 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
     }
 
 
-
+    // inserts questions into the database
     internal fun insertDefaultQuestions() {
         val db = writableDatabase
 
 
-        // For addition questions
         addQuestionWithOptions("Addition", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
         addQuestionWithOptions("Addition", "What is 10 + 2?", 12, listOf(12, 9, 7, 4))
         addQuestionWithOptions("Addition", "What is 5 + 3?", 8, listOf(7, 9, 8, 6))
@@ -291,9 +300,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         addQuestionWithOptions("Addition", "What is 45 + 50?", 95, listOf(95, 96, 97, 98))
         addQuestionWithOptions("Addition", "What is 32 + 70?", 97, listOf(96, 97, 98, 99))
         addQuestionWithOptions("Addition", "What is 55 + 45?", 100, listOf(99, 100, 101, 102))
-        // Add more addition questions...
 
-        // For subtraction questions
         addQuestionWithOptions("Subtraction", "What is 10 - 4?", 6, listOf(8, 5, 7, 6))
         addQuestionWithOptions("Subtraction", "What is 15 - 9?", 6, listOf(8, 6, 4, 10))
         addQuestionWithOptions("Subtraction", "What is 15 - 8?", 7, listOf(6, 7, 8, 9))
@@ -304,9 +311,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         addQuestionWithOptions("Subtraction", "What is 85 - 62?", 23, listOf(21, 22, 23, 24))
         addQuestionWithOptions("Subtraction", "What is 97 - 78?", 19, listOf(18, 19, 20, 21))
         addQuestionWithOptions("Subtraction", "What is 109 - 92?", 17, listOf(15, 16, 17, 18))
-        // Add more subtraction questions...
 
-        // For multiplication questions
         addQuestionWithOptions("Multiplication", "What is 4 * 5?", 20, listOf(20, 18, 22, 15))
         addQuestionWithOptions("Multiplication", "What is 2 * 9?", 18, listOf(15, 18, 12, 21))
         addQuestionWithOptions("Multiplication", "What is 3 * 4?", 12, listOf(10, 12, 14, 16))
@@ -328,7 +333,6 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         addQuestionWithOptions("Multiplication", "What is 7 * 2?", 14, listOf(10, 12, 14, 16))
         addQuestionWithOptions("Multiplication", "What is 5 * 8?", 40, listOf(35, 40, 45, 50))
         addQuestionWithOptions("Multiplication", "What is 8 * 5?", 40, listOf(35, 40, 45, 50))
-
 
 
         addQuestionWithOptions("Division", "What is 12 / 3?", 4, listOf(4, 5, 3, 2))
@@ -353,12 +357,11 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         addQuestionWithOptions("Division", "What is 49 / 7?", 7, listOf(6, 7, 8, 9))
         addQuestionWithOptions("Division", "What is 50 / 10?", 5, listOf(4, 5, 6, 7))
 
-
-
         db.close()
 
     }
 
+    // Retrieves math questions based on difficulty level
     fun getQuestionsByDifficulty(difficulty: String): List<MathQuestions> {
         val questionList = mutableListOf<MathQuestions>()
         val query = when (difficulty) {
@@ -401,7 +404,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return questionList
     }
 
-
+    // Adds a math question with options to the database
     fun addQuestionWithOptions(
         category: String,
         question: String,
@@ -424,7 +427,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return result != -1L
     }
 
-
+    // Inserts a new reward into the database
     fun insertReward(name: String, description: String, imageResourceId: Int): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues().apply {
@@ -437,6 +440,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return result != -1L
     }
 
+    // Retrieves information about all rewards
     fun getAllRewards(): List<Reward> {
         val rewardList = mutableListOf<Reward>()
         val query = "SELECT * FROM Reward"
@@ -463,6 +467,7 @@ class MonsterMathDBHelper(context: Context) : SQLiteOpenHelper(context, Database
         return rewardList
     }
 
+    // Retrieves earned rewards for a specific user
     fun getEarnedRewards(username: String): List<Reward> {
         val earnedRewards = mutableListOf<Reward>()
         val customer = getCustomer(username)
